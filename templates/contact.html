@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - Rythu Connect</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5fff7 0%, #eaf7e8 100%);
+    color: #1b3a1b;
+}
+
+/* ========= STICKY NAVIGATION (Fully Integrated) ========= */
+#mainNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 5%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0, 32, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #d9f0da;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.65rem;
+    letter-spacing: -0.3px;
+}
+
+.logo-mark {
+    background: linear-gradient(145deg, #2b7a2b, #1b5e1f);
+    width: 42px;
+    height: 42px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(33, 97, 33, 0.2);
+}
+
+.logo-mark i {
+    font-size: 1.7rem;
+    color: white;
+}
+
+.logo-text {
+    color: #1b4d1b;
+}
+
+.logo-text span {
+    color: #3a9b3a;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #1f4821;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.nav-links a:hover {
+    color: #2b8c2b;
+    transform: translateY(-1px);
+}
+
+.nav-cta {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-ghost, .btn-solid {
+    border: none;
+    padding: 8px 22px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1.5px solid #3b8b3b;
+    color: #2a6e2a;
+}
+
+.btn-ghost:hover {
+    background: #e9f7e9;
+    border-color: #2b6e2b;
+    transform: scale(0.97);
+}
+
+.btn-solid {
+    background: linear-gradient(105deg, #1f6e1f, #2e8b2e);
+    color: white;
+    box-shadow: 0 4px 10px rgba(30, 100, 30, 0.2);
+}
+
+.btn-solid:hover {
+    background: linear-gradient(105deg, #166316, #247a24);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 116, 37, 0.25);
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(125deg, #1b5e20cc, #2e7d32cc), url('https://images.unsplash.com/photo-1592982537447-6f2a6a0c7e9c?q=80&w=2070&auto=format');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 90px 20px;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    font-size: 3.2rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.hero p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1280px;
+    margin: auto;
+    padding: 60px 24px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+/* FORM STYLES (Modern) */
+.form-card {
+    background: white;
+    padding: 32px 28px;
+    border-radius: 32px;
+    box-shadow: 0 20px 35px -12px rgba(0, 32, 0, 0.12);
+    transition: 0.3s;
+    border: 1px solid rgba(100, 150, 80, 0.15);
+}
+
+.form-card h2 {
+    color: #1f5822;
+    font-size: 1.9rem;
+    margin-bottom: 28px;
+    font-weight: 650;
+    position: relative;
+    display: inline-block;
+}
+
+.form-card h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #4caf50;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #2a5a2a;
+    font-size: 0.9rem;
+}
+
+.input-group label i {
+    margin-right: 8px;
+    color: #3e9b3e;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0efe0;
+    border-radius: 20px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #fefefe;
+}
+
+input:focus, textarea:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+}
+
+button[type="submit"] {
+    background: linear-gradient(105deg, #1f6e1f, #2e8b2e);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 40px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-top: 8px;
+    font-family: inherit;
+    box-shadow: 0 4px 12px rgba(30, 100, 30, 0.2);
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(105deg, #166316, #247a24);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30, 100, 30, 0.3);
+}
+
+/* Contact Info Card (modern) */
+.info-card {
+    background: white;
+    padding: 32px 28px;
+    border-radius: 32px;
+    box-shadow: 0 20px 35px -12px rgba(0, 32, 0, 0.12);
+    border: 1px solid rgba(100, 150, 80, 0.15);
+    transition: 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.icon-circle i {
+    font-size: 28px;
+    color: #2e7d32;
+}
+
+.info-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    color: #1a4d1a;
+}
+
+.info-card p, .info-card a {
+    color: #3a5a3a;
+    line-height: 1.5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.info-card a:hover {
+    color: #2e7d32;
+    text-decoration: underline;
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, #c8e6c9, transparent);
+    margin: 20px 0;
+}
+
+/* SUPPORT INFO SECTION */
+.support-box {
+    background: linear-gradient(115deg, #ebf7ea, #e0f0dd);
+    padding: 40px 35px;
+    border-radius: 32px;
+    margin-top: 20px;
+    border: 1px solid #c8e0c0;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+}
+
+.support-box h2 {
+    color: #1f5822;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.support-box h2 i {
+    font-size: 32px;
+}
+
+.support-box p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.support-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.support-list li {
+    list-style: none;
+    padding: 10px 0 10px 28px;
+    position: relative;
+    font-weight: 500;
+}
+
+.support-list li:before {
+    content: "🌾";
+    position: absolute;
+    left: 0;
+    color: #2e7d32;
+}
+
+/* footer */
+.footer-note {
+    text-align: center;
+    padding: 32px 20px 40px;
+    font-size: 0.85rem;
+    color: #457845;
+    border-top: 1px solid #cfebcf;
+    margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+    #mainNav {
+        flex-direction: column;
+        gap: 14px;
+        padding: 15px 20px;
+    }
+    .nav-links {
+        gap: 1.3rem;
+        justify-content: center;
+    }
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .container {
+        padding: 40px 20px;
+    }
+    .form-card, .info-card {
+        padding: 24px 20px;
+    }
+}
+
+/* animation */
+@keyframes float {
+    0% { transform: translateY(0px);}
+    100% { transform: translateY(-5px);}
+}
+
+.fa-seedling {
+    animation: float 3s infinite ease-in-out;
+}
+
+/* flash message styling */
+.flash-message {
+    background: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ========= STICKY NAVIGATION (Jinja2 with url_for) ========= -->
+<nav id="mainNav">
+    <a href="{{ url_for('home') }}" class="logo">
+        <div class="logo-mark"><i class="fa-solid fa-seedling"></i></div>
+        <div class="logo-text">Rythu<span>Connect</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('features') }}">Features</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('team') }}">Team</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+    <div class="nav-cta">
+        <button class="btn-ghost" onclick="window.location.href='{{ url_for('login') }}'">
+            Login
+        </button>
+        <button class="btn-solid" onclick="window.location.href='{{ url_for('register') }}'">
+            Join Hub
+        </button>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>📞 Contact Rythu Connect</h1>
+    <p>We are always here to help farmers 🌾</p>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+    <!-- Flash message support (if any) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message">
+                    <i class="fa-solid fa-circle-info"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="grid">
+
+        <!-- CONTACT FORM (Jinja2 with POST) -->
+        <form class="form-card" method="POST" action="{{ url_for('contact') }}">
+            <h2>Send Message</h2>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-user"></i> Full Name</label>
+                <input type="text" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-envelope"></i> Email Address</label>
+                <input type="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-tag"></i> Subject</label>
+                <input type="text" name="subject" placeholder="What is this regarding?">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-message"></i> Your Message</label>
+                <textarea name="message" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+            </div>
+
+            <button type="submit">
+                <i class="fa-regular fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+
+        <!-- CONTACT INFO CARD (Advanced) -->
+        <div class="info-card">
+
+            <div class="icon-circle">
+                <i class="fa-solid fa-phone-volume"></i>
+            </div>
+            <h3>Phone Support</h3>
+            <a href="tel:+916309872249">📞 +91 6309872249</a>
+            <p style="font-size:0.85rem; margin-top:5px;">Mon-Sat, 9AM - 6PM</p>
+
+            <div class="divider"></div>
+
+            <div class="icon-circle">
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+            <h3>Email Support</h3>
+            <a href="mailto:supportrythuconnect@gmail.com">supportrythuconnect@gmail.com</a>
+            <p style="font-size:0.85rem; margin-top:5px;">24x7 response within 12hrs</p>
+
+            <div class="divider"></div>
+
+            <div class="icon-circle">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Office Location</h3>
+            <p id="locationText" style="cursor:pointer; font-weight:500;">
+                📍 Muttembaka, Andhra Pradesh <i class="fa-regular fa-map"></i>
+            </p>
+            <p style="font-size:0.8rem; margin-top:6px;">Click to open Google Maps</p>
+
+            <div class="divider"></div>
+
+            <div class="icon-circle">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+            <h3>Support Hours</h3>
+            <p>Monday - Saturday: 9:00 AM – 6:00 PM<br>Sunday: Emergency only</p>
+
+        </div>
+
+    </div>
+
+    <!-- SUPPORT INFO SECTION (Why Contact Us) -->
+    <div class="support-box">
+
+        <h2><i class="fa-regular fa-leaf"></i> Why Contact Us?</h2>
+
+        <p>
+            <strong>Rythu Connect</strong> is built for farmers. If you face any issue related to:
+        </p>
+
+        <ul class="support-list">
+            <li>Marketplace buying/selling</li>
+            <li>Account login issues</li>
+            <li>Notifications or system errors</li>
+            <li>Government schemes info</li>
+            <li>Technical support or AI tools</li>
+        </ul>
+
+        <p>
+            🌟 Our dedicated team will respond as quickly as possible to help you. 
+            Every farmer's query is our top priority — because your growth is our mission.
+        </p>
+
+        <div style="margin-top: 20px; background: white; border-radius: 24px; padding: 16px 20px; border-left: 6px solid #4caf50;">
+            <i class="fa-regular fa-comment-dots"></i> <strong>Emergency helpline:</strong> For urgent technical issues, call our toll-free number or email with "URGENT" in subject line.
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-note">
+    <i class="fa-regular fa-copyright"></i> 2025 Rythu Connect — Cultivating innovation for Indian farmers
+</div>
+
+<script>
+    // Interactive location map opener
+    document.getElementById("locationText")?.addEventListener("click", function () {
+        const destination = "Muttembaka, Andhra Pradesh 524415, India";
+        const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(destination);
+        window.open(url, "_blank");
+    });
+
+    // Additional smooth interactions: form success demo message
+    const contactForm = document.querySelector('form');
+    if(contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            // This is just frontend hint: actual submission is handled by backend
+            console.log("Form submitted to backend route");
+        });
+    }
+
+    // Nav active highlight on current page (contact)
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        if(link.getAttribute('href') === "{{ url_for('contact') }}") {
+            link.style.fontWeight = '700';
+            link.style.color = '#2b8c2b';
+            link.style.borderBottom = '2px solid #4caf50';
+        }
+    });
+</script>
+
+</body>
+</html>

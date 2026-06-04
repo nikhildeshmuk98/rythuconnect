@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Profile - Rythu Connect</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4fff4;
+overflow-x:hidden;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+width:280px;
+height:100vh;
+background:white;
+position:fixed;
+left:0;
+top:0;
+padding:25px;
+overflow-y:auto;
+box-shadow:0 5px 25px rgba(0,0,0,0.08);
+transition:0.4s;
+z-index:999;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.logo-circle{
+width:60px;
+height:60px;
+border-radius:50%;
+background:linear-gradient(135deg,#0f8f2f,#45d167);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-size:28px;
+}
+
+.logo h1{
+font-size:28px;
+font-weight:800;
+color:#0f8f2f;
+}
+
+.tagline{
+font-size:14px;
+line-height:28px;
+color:#666;
+margin-bottom:40px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu a{
+height:58px;
+display:flex;
+align-items:center;
+gap:15px;
+padding:0 20px;
+border-radius:18px;
+text-decoration:none;
+color:#444;
+font-weight:500;
+transition:0.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:linear-gradient(135deg,#0f8f2f,#45d167);
+color:white;
+}
+
+.menu i{
+font-size:20px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+margin-left:280px;
+padding:40px;
+}
+
+.page-title{
+font-size:38px;
+font-weight:800;
+color:#0f8f2f;
+margin-bottom:10px;
+}
+
+.page-sub{
+color:#666;
+margin-bottom:35px;
+}
+
+/* ================= FORM ================= */
+
+.form-container{
+background:white;
+padding:40px;
+border-radius:35px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+.form-group label{
+font-size:15px;
+font-weight:600;
+margin-bottom:10px;
+color:#444;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+width:100%;
+padding:16px 18px;
+border-radius:18px;
+border:1px solid #ddd;
+outline:none;
+font-size:15px;
+background:#f9fff9;
+transition:0.3s;
+}
+
+.form-group textarea{
+resize:none;
+height:120px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+border-color:#0f8f2f;
+box-shadow:0 0 0 4px rgba(15,143,47,0.1);
+}
+
+.full-width{
+grid-column:1/3;
+}
+
+/* ================= PROFILE IMAGE ================= */
+
+.profile-upload{
+display:flex;
+align-items:center;
+gap:25px;
+margin-bottom:35px;
+flex-wrap:wrap;
+}
+
+.profile-preview{
+width:140px;
+height:140px;
+border-radius:50%;
+object-fit:cover;
+border:5px solid #0f8f2f;
+background:#f4fff4;
+}
+
+.upload-box{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.upload-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+height:52px;
+padding:0 24px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg,#0f8f2f,#45d167);
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.file-input{
+display:none;
+}
+
+/* ================= BUTTONS ================= */
+
+.button-group{
+display:flex;
+gap:20px;
+margin-top:35px;
+flex-wrap:wrap;
+}
+
+.save-btn{
+height:58px;
+padding:0 35px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#0f8f2f,#45d167);
+color:white;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+.cancel-btn{
+height:58px;
+padding:0 35px;
+border:none;
+border-radius:18px;
+background:#eee;
+color:#333;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+.sidebar{
+left:-280px;
+}
+
+.main{
+margin-left:0;
+padding:20px;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.full-width{
+grid-column:auto;
+}
+
+}
+
+@media(max-width:600px){
+
+.form-container{
+padding:25px;
+}
+
+.page-title{
+font-size:28px;
+}
+
+.profile-preview{
+width:110px;
+height:110px;
+}
+
+}
+/*banner image*/
+/* ================= BANNER ================= */
+
+.banner-upload{
+display:flex;
+flex-direction:column;
+gap:15px;
+margin-bottom:35px;
+}
+
+.banner-preview{
+width:100%;
+height:220px;
+border-radius:25px;
+object-fit:cover;
+border:4px solid #0f8f2f;
+background:#f4fff4;
+}
+</style>
+</head>
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<div class="logo-circle">
+<i class="fa-solid fa-seedling"></i>
+</div>
+
+<h1>Rythu Connect</h1>
+
+</div>
+
+<div class="tagline">
+Farmer Profile Management
+</div>
+
+<div class="menu">
+
+<a href="/rythu_dashboard">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a href="/profile" class="active">
+<i class="fa-solid fa-user"></i>
+Profile
+</a>
+
+<a href="/community">
+<i class="fa-solid fa-users"></i>
+Community
+</a>
+
+<a href="/settings">
+<i class="fa-solid fa-gear"></i>
+Settings
+</a>
+
+</div>
+
+</div>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<h1 class="page-title">
+Edit Profile
+</h1>
+
+<p class="page-sub">
+Update your farmer profile information
+</p>
+
+<div class="form-container">
+
+<form action="{{ url_for('edit_profile') }}"
+      method="POST"
+      enctype="multipart/form-data">
+
+<!-- PROFILE IMAGE -->
+
+<div class="profile-upload">
+
+{% if user.profile_image and user.profile_image != 'NULL' %}
+
+<img id="previewImage"
+src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}"
+class="profile-preview">
+
+{% else %}
+
+<img id="previewImage"
+src="{{ url_for('static', filename='profile_images/default.png') }}"
+class="profile-preview">
+
+{% endif %}
+
+<div class="upload-box">
+
+<label class="upload-btn">
+
+<i class="fa-solid fa-camera"></i>
+Upload Profile Image
+
+<input type="file"
+name="profile_image"
+class="file-input"
+accept="image/*"
+onchange="previewFile(this)">
+
+</label>
+
+<p style="color:#777;font-size:14px;">
+JPG, PNG Supported
+</p>
+
+</div>
+<!-- ================= BANNER IMAGE ================= -->
+
+<div class="banner-upload">
+
+{% if user.banner_image and user.banner_image != 'NULL' %}
+
+<img id="bannerPreview"
+src="{{ url_for('static', filename='uploads/banner_images/' ~ user.banner_image) }}"
+class="banner-preview">
+
+{% else %}
+
+<img id="bannerPreview"
+src="{{ url_for('static', filename='banner_images/default_banner.png') }}"
+class="banner-preview">
+
+{% endif %}
+
+<div class="upload-box">
+
+<label class="upload-btn">
+
+<i class="fa-solid fa-panorama"></i>
+Upload Banner Image
+
+<input type="file"
+name="banner_image"
+class="file-input"
+accept="image/*"
+onchange="previewBanner(this)">
+
+</label>
+
+<p style="color:#777;font-size:14px;">
+JPG, PNG Supported
+</p>
+
+</div>
+</div>
+</div>
+
+<!-- FORM GRID -->
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Full Name</label>
+<input type="text"
+name="name"
+value="{{ user.name }}"
+required>
+</div>
+
+<div class="form-group">
+<label>Username</label>
+<input type="text"
+name="username"
+value="{{ user.username }}"
+required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email"
+name="gmail"
+value="{{ user.gmail }}">
+</div>
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input type="text"
+name="mobile"
+value="{{ user.mobile }}">
+</div>
+
+<div class="form-group">
+<label>Profession</label>
+<input type="text"
+name="profession"
+value="{{ user.profession }}">
+</div>
+
+<div class="form-group">
+<label>Land Area (Acres)</label>
+<input type="text"
+name="land_area"
+value="{{ user.land_area }}">
+</div>
+
+<div class="form-group">
+<label>Farming Experience</label>
+<input type="text"
+name="farming_experience"
+value="{{ user.farming_experience }}">
+</div>
+
+<div class="form-group">
+<label>Irrigation Type</label>
+<input type="text"
+name="irrigation_type"
+value="{{ user.irrigation_type }}">
+</div>
+
+<div class="form-group">
+<label>Main Crops</label>
+<input type="text"
+name="main_crops"
+value="{{ user.main_crops }}">
+</div>
+
+<div class="form-group">
+<label>Farming Type</label>
+<input type="text"
+name="farming_type"
+value="{{ user.farming_type }}">
+</div>
+
+<div class="form-group">
+<label>Village</label>
+<input type="text"
+name="village"
+value="{{ user.village }}">
+</div>
+
+<div class="form-group">
+<label>Mandal</label>
+<input type="text"
+name="mandal"
+value="{{ user.mandal }}">
+</div>
+
+<div class="form-group">
+<label>District</label>
+<input type="text"
+name="district"
+value="{{ user.district }}">
+</div>
+
+<div class="form-group">
+<label>State</label>
+<input type="text"
+name="state"
+value="{{ user.state }}">
+</div>
+
+<div class="form-group">
+<label>Country</label>
+<input type="text"
+name="country"
+value="{{ user.country }}">
+</div>
+
+<div class="form-group">
+<label>Pincode</label>
+<input type="text"
+name="pincode"
+value="{{ user.pincode }}">
+</div>
+
+<div class="form-group full-width">
+<label>Skills / Crops / Interests</label>
+<textarea name="skills">{{ user.skills }}</textarea>
+</div>
+
+<div class="form-group full-width">
+<label>Bio</label>
+<textarea name="bio">{{ user.bio }}</textarea>
+</div>
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="button-group">
+
+<button type="submit"
+class="save-btn">
+
+<i class="fa-solid fa-floppy-disk"></i>
+Save Changes
+
+</button>
+
+<a href="/profile">
+
+<button type="button"
+class="cancel-btn">
+
+<i class="fa-solid fa-xmark"></i>
+Cancel
+
+</button>
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- ================= JS ================= -->
+
+<script>
+
+function previewFile(input){
+
+if(input.files && input.files[0]){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+document.getElementById('previewImage')
+.src = e.target.result;
+
+}
+
+reader.readAsDataURL(input.files[0]);
+
+}
+
+}
+function previewBanner(input){
+
+if(input.files && input.files[0]){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+document.getElementById('bannerPreview')
+.src = e.target.result;
+
+}
+
+reader.readAsDataURL(input.files[0]);
+
+}
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Scheme Admin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+}
+
+.header {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full {
+    grid-column: span 2;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    outline: none;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.btn {
+    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cards-wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    width: 280px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin: 15px;
+}
+
+.img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.tag {
+    display: inline-block;
+    margin-top: 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.btns {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit {
+    background: #43a047;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.delete {
+    background: #e53935;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+@media(max-width:768px){
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+🌿 Government Scheme Admin Panel
+</div>
+
+<!-- FORM -->
+<div class="container">
+
+<form action="{{ url_for('insert_scheme') }}" method="POST">
+
+<div class="form-grid">
+
+    <div>
+        <label>Scheme Name</label>
+        <input type="text" name="scheme_name" required>
+    </div>
+
+    <div>
+        <label>Category</label>
+        <select name="category" required>
+            <option value="">Select</option>
+            <option value="Subsidy">Subsidy</option>
+            <option value="Loan">Loan</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Training">Training</option>
+            <option value="Market Support">Market Support</option>
+        </select>
+    </div>
+
+    <div class="full">
+        <label>Description</label>
+        <textarea name="description"></textarea>
+    </div>
+
+    <div>
+        <label>Eligibility</label>
+        <input type="text" name="eligibility">
+    </div>
+
+    <div>
+        <label>Benefits</label>
+        <input type="text" name="benefits">
+    </div>
+
+    <div>
+        <label>State</label>
+        <input type="text" name="state">
+    </div>
+
+    <div>
+        <label>Website Link</label>
+        <input type="text" name="website_link">
+    </div>
+
+    <div class="full">
+        <label>Image URL</label>
+        <input type="text" name="image_url">
+    </div>
+
+</div>
+
+<br>
+<button class="btn" type="submit">🌱 Upload Scheme</button>
+
+</form>
+
+</div>
+
+<!-- ================= SCHEME CARDS ================= -->
+<div class="cards-wrapper">
+
+{% if schemes %}
+
+    {% for scheme in schemes %}
+
+    <div class="card">
+
+        <!-- IMAGE -->
+        <img src="{{ scheme[8] }}" class="img"
+             onerror="this.src='https://via.placeholder.com/280x170?text=No+Image';">
+
+        <!-- TITLE -->
+        <h3>{{ scheme[1] }}</h3>
+
+        <!-- DESCRIPTION -->
+        <p>{{ scheme[3] }}</p>
+
+        <!-- CATEGORY -->
+        <span class="tag">{{ scheme[2] }}</span>
+
+        <!-- EXTRA INFO (optional but useful) -->
+        <p style="font-size:12px; color:gray;">
+            State: {{ scheme[6] }} | Eligibility: {{ scheme[4] }}
+        </p>
+
+        <!-- BUTTONS -->
+        <div class="btns">
+
+            <!-- EDIT -->
+            <a href="{{ url_for('edit_scheme', id=scheme[0]) }}" class="edit">
+                Edit
+            </a>
+
+            <!-- DELETE -->
+            <a href="{{ url_for('delete_scheme', id=scheme[0]) }}" class="delete"
+               onclick="return confirm('Are you sure you want to delete this scheme permanently?')">
+                Delete
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <!-- EMPTY STATE -->
+    <div style="text-align:center; width:100%; padding:40px;">
+        <h3>No Schemes Found</h3>
+        <p>Please add new government schemes</p>
+    </div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

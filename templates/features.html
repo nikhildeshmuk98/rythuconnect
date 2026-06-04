@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rythu Connect | Smart Farming Ecosystem</title>
+
+<!-- Font Awesome 6 (Free CDN) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- Google Fonts for extra polish -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #fafef7;
+    color: #1a3a1a;
+    scroll-behavior: smooth;
+}
+
+/* ----- NAVIGATION (crisp, modern, sticky) ----- */
+#mainNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 5%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0, 32, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #d9f0da;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.65rem;
+    letter-spacing: -0.3px;
+}
+
+.logo-mark {
+    background: linear-gradient(145deg, #2b7a2b, #1b5e1f);
+    width: 42px;
+    height: 42px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(33, 97, 33, 0.2);
+}
+
+.logo-mark i {
+    font-size: 1.7rem;
+    color: white;
+}
+
+.logo-text {
+    color: #1b4d1b;
+}
+
+.logo-text span {
+    color: #3a9b3a;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #1f4821;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.nav-links a:hover {
+    color: #2b8c2b;
+    transform: translateY(-1px);
+}
+
+.nav-cta {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-ghost, .btn-solid {
+    border: none;
+    padding: 8px 22px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1.5px solid #3b8b3b;
+    color: #2a6e2a;
+}
+
+.btn-ghost:hover {
+    background: #e9f7e9;
+    border-color: #2b6e2b;
+    transform: scale(0.97);
+}
+
+.btn-solid {
+    background: linear-gradient(105deg, #1f6e1f, #2e8b2e);
+    color: white;
+    box-shadow: 0 4px 10px rgba(30, 100, 30, 0.2);
+}
+
+.btn-solid:hover {
+    background: linear-gradient(105deg, #166316, #247a24);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 116, 37, 0.25);
+}
+
+/* ----- HERO (lush & welcoming) ----- */
+.hero {
+    background: linear-gradient(125deg, #1b5e20cc, #2e7d32cc), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format');
+    background-size: cover;
+    background-position: center 30%;
+    color: white;
+    padding: 90px 20px;
+    text-align: center;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    font-size: 3.2rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.hero p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.95;
+    font-weight: 400;
+}
+
+/* section wrappers */
+.section {
+    max-width: 1280px;
+    margin: auto;
+    padding: 70px 24px;
+}
+
+.section h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 48px;
+    font-weight: 650;
+    color: #1f5822;
+    letter-spacing: -0.3px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.section h2:after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: #4caf50;
+    border-radius: 4px;
+    margin: 14px auto 0;
+}
+
+/* grid layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+/* card style (elegant + glass) */
+.card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(2px);
+    padding: 28px 22px;
+    border-radius: 32px;
+    box-shadow: 0 12px 28px -8px rgba(0, 32, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid rgba(110, 160, 90, 0.2);
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 36px -12px rgba(40, 90, 30, 0.2);
+    border-color: #b8e0b0;
+}
+
+.card i {
+    font-size: 2.6rem;
+    background: linear-gradient(135deg, #2c7a2c, #5fad5f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    font-size: 1.55rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #154015;
+}
+
+.card p {
+    color: #2f4d2f;
+    line-height: 1.45;
+    font-size: 0.98rem;
+}
+
+/* dark/alt section */
+.dark {
+    background: #ebf7ea;
+    border-radius: 48px;
+    margin: 20px auto;
+    box-shadow: inset 0 1px 0 #fff8, 0 8px 20px rgba(0,0,0,0.02);
+}
+
+/* cta block (inner section glam) */
+.cta {
+    background: linear-gradient(125deg, #206a20, #398a39);
+    color: white;
+    text-align: center;
+    padding: 64px 32px;
+    border-radius: 48px;
+    box-shadow: 0 20px 30px -10px rgba(30, 80, 30, 0.3);
+}
+
+.cta h2 {
+    font-size: 2.3rem;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.cta h2:after {
+    background: #ffec9f;
+    width: 80px;
+}
+
+.cta p {
+    font-size: 1.1rem;
+    max-width: 550px;
+    margin: 0 auto 24px;
+    opacity: 0.92;
+}
+
+.cta .btn {
+    display: inline-block;
+    background: white;
+    color: #1f6422;
+    padding: 14px 38px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: 0.2s;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.cta .btn:hover {
+    background: #f9fff7;
+    transform: scale(1.02);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.15);
+}
+
+/* responsiveness */
+@media (max-width: 780px) {
+    #mainNav {
+        flex-direction: column;
+        gap: 14px;
+        padding: 15px 20px;
+    }
+    .nav-links {
+        gap: 1.3rem;
+        justify-content: center;
+    }
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .section {
+        padding: 50px 20px;
+    }
+    .section h2 {
+        font-size: 1.9rem;
+    }
+    .card {
+        padding: 22px 18px;
+    }
+}
+
+/* subtle animation */
+@keyframes float {
+    0% { transform: translateY(0px);}
+    100% { transform: translateY(-5px);}
+}
+
+.fa-seedling {
+    animation: float 3s infinite ease-in-out;
+}
+
+/* additional footer-ish bottom spacing */
+footer-tag {
+    display: block;
+    text-align: center;
+    padding: 32px 20px 40px;
+    font-size: 0.85rem;
+    color: #457845;
+    border-top: 1px solid #cfebcf;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY NAVIGATION (fully integrated, same as requested) -->
+<nav id="mainNav">
+    <a href="#" class="logo">
+        <div class="logo-mark"><i class="fa-solid fa-seedling"></i></div>
+        <div class="logo-text">Rythu<span>Connect</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="{{ url_for('home')}}">Home</a>
+        <a href="{{ url_for('features')}}">Features</a>
+        <a href="{{ url_for('about')}}">About</a>
+        <a href="{{ url_for('team')}}">Team</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+    <div class="nav-cta">
+       <button class="btn-ghost"
+        onclick="window.location.href='{{ url_for('login') }}'">
+    Login
+</button>
+<button class="btn-solid"
+        onclick="window.location.href='{{ url_for('register') }}'">
+    Join Hub
+</button>
+    </div>
+</nav>
+
+<!-- HERO SECTION (Rythu Connect) -->
+<div class="hero">
+    <h1>🌾 Rythu Connect Features</h1>
+    <p>Empowering Farmers with Smart Agriculture Technology</p>
+</div>
+
+<!-- SECTION 1 - Smart Farming Tools -->
+<div class="section">
+    <h2>🌱 Smart Farming Tools</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-cloud-sun-rain"></i>
+            <h3>Weather Forecast</h3>
+            <p>Live weather updates for better crop planning & irrigation scheduling.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-leaf"></i>
+            <h3>Crop Suggestions</h3>
+            <p>AI-based crop recommendations for maximum yield and soil harmony.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-microscope"></i>
+            <h3>Disease Detection</h3>
+            <p>Upload crop image and detect diseases instantly with smart diagnosis.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 2 - Marketplace System (dark bg elegance) -->
+<div class="section dark">
+    <h2>🏪 Marketplace System</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-store"></i>
+            <h3>Buy & Sell Crops</h3>
+            <p>Direct farmer-to-buyer marketplace with zero middlemen.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h3>Logistics Support</h3>
+            <p>Easy transportation and delivery tracking from farm to market.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            <h3>Fair Pricing</h3>
+            <p>Get real-time market price updates & MSP alerts instantly.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 3 - Community & Social -->
+<div class="section">
+    <h2>👨‍🌾 Community & Social</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-users"></i>
+            <h3>Farmer Community</h3>
+            <p>Connect with farmers across regions, share local insights and grow together.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-comments"></i>
+            <h3>Discussions</h3>
+            <p>Share ideas, tips, and farming experiences in dedicated forums.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-heart"></i>
+            <h3>Likes & Support</h3>
+            <p>Engage with posts and support farmers through recognition.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 4 - Government & Updates (dark style) -->
+<div class="section dark">
+    <h2>🏛️ Government & Updates</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-landmark"></i>
+            <h3>Govt Schemes</h3>
+            <p>Latest agricultural subsidy updates, PM-KISAN, and state schemes.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-bell"></i>
+            <h3>Notifications</h3>
+            <p>Instant alerts for farmers about weather, market, and policies.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-newspaper"></i>
+            <h3>Agriculture News</h3>
+            <p>Stay updated with farming trends, innovations, and success stories.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 5 - Grand CTA -->
+<div class="section">
+    <div class="cta">
+        <h2>🚀 Join Rythu Connect Today</h2>
+        <p>Empowering every farmer with smart technology & community support</p>
+        <a href="{{ url_for('register') }}" class="btn" id="getStartedBtn">Get Started →</a>
+    </div>
+</div>
+
+<!-- small footer-like line for completeness -->
+<footer-tag>
+    <i class="fa-regular fa-copyright"></i> 2025 Rythu Connect — Cultivating innovation for Indian farmers
+</footer-tag>
+
+<!-- Simple interactive alerts for demonstration (preserves beauty & subtle functionality) -->
+<script>
+    // Interactive demo to show smooth user feedback (non-intrusive)
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const getStarted = document.getElementById('getStartedBtn');
+    
+    if(loginBtn) {
+       loginBtn.addEventListener('click', () => {
+    window.location.href = "{{ url_for('login') }}";
+});
+    }
+    if(registerBtn) {
+        registerBtn.addEventListener('click', () => {
+           window.location.href = "{{ url_for('register') }}";
+        });
+    }
+    if(getStarted) {
+        getStarted.addEventListener('click', (e) => {
+            e.preventDefault();
+           window.location.href = "{{ url_for('register') }}";
+    }
+    
+
+    
+    // Logo click message
+    const logoLink = document.querySelector('.logo');
+    if(logoLink) {
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("🌾 Rythu Connect — सबका साथ, सबका विकास (Empowering rural India)");
+        });
+    }
+    
+    // subtle additional: cards minor console greet but no interference
+    console.log("Rythu Connect UI — perfect layout with integrated nav, hero, features grid, dark sections and modern CTA");
+</script>
+
+</body>
+</html>

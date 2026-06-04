@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Edit Marketplace Item - Rythu Connect</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+  --green-dark:#052e16;
+  --green:#11823b;
+  --green-light:#22c55e;
+  --green-soft:#ecfff2;
+  --green-border:#c9f3d6;
+
+  --white:#ffffff;
+  --gray:#667085;
+  --black:#101828;
+
+  --shadow:
+  0 10px 35px rgba(0,0,0,0.08);
+
+  --radius:22px;
+
+  --sidebar-width:290px;
+
+  --font1:'Playfair Display',serif;
+  --font2:'DM Sans',sans-serif;
+
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:var(--font2);
+  background:#f6fff8;
+  color:var(--black);
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  width:var(--sidebar-width);
+  height:100vh;
+  background:linear-gradient(180deg,#052e16,#0a5b29);
+  position:fixed;
+  left:0;
+  top:0;
+  padding:24px;
+  overflow-y:auto;
+  z-index:999;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:35px;
+}
+
+.logo-icon{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:26px;
+}
+
+.logo h1{
+  color:white;
+  font-family:var(--font1);
+  font-size:24px;
+}
+
+.logo span{
+  color:#9be7b3;
+  font-size:12px;
+  letter-spacing:2px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.menu a{
+  text-decoration:none;
+  color:rgba(255,255,255,0.7);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 18px;
+  border-radius:16px;
+  transition:0.3s;
+  font-weight:600;
+}
+
+.menu a:hover{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+.menu a.active{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+  color:#052e16;
+}
+
+.menu i{
+  width:22px;
+  text-align:center;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  margin-left:var(--sidebar-width);
+  min-height:100vh;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+  height:85px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 35px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.nav-title h2{
+  font-family:var(--font1);
+  color:var(--green-dark);
+  font-size:30px;
+}
+
+.nav-title p{
+  color:var(--gray);
+  margin-top:3px;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.profile img{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #22c55e;
+}
+
+.profile-letter{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:22px;
+  font-weight:700;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  padding:35px;
+}
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.form-card{
+  background:white;
+  border-radius:30px;
+  padding:40px;
+  box-shadow:var(--shadow);
+  border:1px solid #eaf7ee;
+}
+
+.form-header{
+  margin-bottom:35px;
+}
+
+.form-header h1{
+  font-family:var(--font1);
+  color:var(--green-dark);
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.form-header p{
+  color:var(--gray);
+  font-size:15px;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section-title{
+  font-size:22px;
+  color:var(--green-dark);
+  font-weight:700;
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.section-title i{
+  color:var(--green);
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-group{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.input-group label{
+  font-size:14px;
+  font-weight:700;
+  color:#1d2939;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select{
+  width:100%;
+  border:2px solid #e4f4e8;
+  background:#fbfffc;
+  border-radius:18px;
+  padding:16px 18px;
+  font-size:15px;
+  font-family:var(--font2);
+  outline:none;
+  transition:0.3s;
+}
+
+.input-group textarea{
+  resize:none;
+  min-height:140px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus{
+  border-color:#22c55e;
+  background:white;
+  box-shadow:0 0 0 4px rgba(34,197,94,0.12);
+}
+
+/* =========================================================
+   FILE
+========================================================= */
+
+.file-upload{
+  border:2px dashed #b7e9c7;
+  background:#f5fff8;
+  border-radius:24px;
+  padding:30px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.file-upload:hover{
+  background:#edfff3;
+}
+
+.file-upload i{
+  font-size:52px;
+  color:#16a34a;
+  margin-bottom:14px;
+}
+
+.file-upload p{
+  color:#667085;
+  margin-bottom:18px;
+}
+
+.file-upload input{
+  display:none;
+}
+
+.file-label{
+  display:inline-block;
+  padding:14px 26px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================================================
+   OLD IMAGE
+========================================================= */
+
+.old-image{
+  margin-top:20px;
+}
+
+.old-image img{
+  width:180px;
+  height:180px;
+  object-fit:cover;
+  border-radius:20px;
+  border:4px solid #dcfce7;
+  box-shadow:var(--shadow);
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.submit-btn{
+  margin-top:35px;
+  width:100%;
+  height:65px;
+  border:none;
+  border-radius:20px;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:white;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 10px 30px rgba(34,197,94,0.3);
+}
+
+.submit-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .page{
+    padding:16px;
+  }
+
+  .form-card{
+    padding:24px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .navbar{
+    padding:0 18px;
+  }
+
+  .nav-title h2{
+    font-size:22px;
+  }
+
+  .form-header h1{
+    font-size:30px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<div class="sidebar">
+
+  <div class="logo">
+
+    <div class="logo-icon">
+      <i class="fa-solid fa-seedling"></i>
+    </div>
+
+    <div>
+      <h1>Rythu Connect</h1>
+      <span>FARMER PLATFORM</span>
+    </div>
+
+  </div>
+
+  <div class="menu">
+
+    <a href="/rythu_dashboard">
+      <i class="fa-solid fa-house"></i>
+      Dashboard
+    </a>
+
+    <a href="/marketplace" class="active">
+      <i class="fa-solid fa-store"></i>
+      Marketplace
+    </a>
+
+    <a href="/community">
+      <i class="fa-solid fa-users"></i>
+      Community
+    </a>
+
+    <a href="/weather_forecast">
+      <i class="fa-solid fa-cloud-sun"></i>
+      Weather
+    </a>
+
+    <a href="/analytics">
+      <i class="fa-solid fa-chart-line"></i>
+      Analytics
+    </a>
+
+    <a href="/profile">
+      <i class="fa-solid fa-user"></i>
+      Profile
+    </a>
+
+    <a href="/settings">
+      <i class="fa-solid fa-gear"></i>
+      Settings
+    </a>
+
+  </div>
+
+</div>
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="main">
+
+  <!-- NAVBAR -->
+
+  <div class="navbar">
+
+    <div class="nav-title">
+      <h2>Edit Item</h2>
+      <p>Update your marketplace product details</p>
+    </div>
+
+    <div class="profile">
+
+      {% if user.profile_image and user.profile_image != 'NULL' %}
+      <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}">
+      {% else %}
+      <div class="profile-letter">
+        {{ user.username[0] | upper }}
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <!-- PAGE -->
+
+  <div class="page">
+
+    <div class="form-card">
+
+      <div class="form-header">
+
+        <h1>
+          <i class="fa-solid fa-pen-to-square"></i>
+          Edit Marketplace Item
+        </h1>
+
+        <p>
+          Update your agriculture product details and save changes instantly.
+        </p>
+
+      </div>
+
+      <!-- FORM -->
+
+      <form method="POST"
+            enctype="multipart/form-data">
+
+        <!-- =========================================================
+             PRODUCT DETAILS
+        ========================================================= -->
+
+        <div class="section-title">
+          <i class="fa-solid fa-box-open"></i>
+          Product Details
+        </div>
+
+        <div class="form-grid">
+
+          <!-- TITLE -->
+
+          <div class="input-group full">
+
+            <label>Item Title</label>
+
+            <input type="text"
+                   name="title"
+                   placeholder="e.g. Fresh Paddy Rice"
+                   value="{{ item.title }}"
+                   required>
+
+          </div>
+
+          <!-- PRICE -->
+
+          <div class="input-group">
+
+            <label>Price (₹)</label>
+
+            <input type="number"
+                   name="price"
+                   placeholder="0.00"
+                   value="{{ item.price }}"
+                   step="0.01"
+                   required>
+
+          </div>
+
+          <!-- UNIT -->
+
+          <div class="input-group">
+
+            <label>Unit</label>
+
+            <select name="unit" required>
+
+              <option value="">Select unit</option>
+
+              <option value="Kg"
+              {% if item.unit == 'Kg' %}selected{% endif %}>
+              Kg
+              </option>
+
+              <option value="Quintal"
+              {% if item.unit == 'Quintal' %}selected{% endif %}>
+              Quintal
+              </option>
+
+              <option value="Ton"
+              {% if item.unit == 'Ton' %}selected{% endif %}>
+              Ton
+              </option>
+
+              <option value="Piece"
+              {% if item.unit == 'Piece' %}selected{% endif %}>
+              Piece
+              </option>
+
+              <option value="Packet"
+              {% if item.unit == 'Packet' %}selected{% endif %}>
+              Packet
+              </option>
+
+            </select>
+
+          </div>
+
+          <!-- CATEGORY -->
+
+          <div class="input-group">
+
+            <label>Category</label>
+
+            <select name="category" required>
+
+              <option value="">Select category</option>
+
+              <option value="Vegetables"
+              {% if item.category == 'Vegetables' %}selected{% endif %}>
+              Vegetables
+              </option>
+
+              <option value="Fruits"
+              {% if item.category == 'Fruits' %}selected{% endif %}>
+              Fruits
+              </option>
+
+              <option value="Seeds"
+              {% if item.category == 'Seeds' %}selected{% endif %}>
+              Seeds
+              </option>
+
+              <option value="Rice"
+              {% if item.category == 'Rice' %}selected{% endif %}>
+              Rice
+              </option>
+
+              <option value="Machinery"
+              {% if item.category == 'Machinery' %}selected{% endif %}>
+              Machinery
+              </option>
+
+            </select>
+
+          </div>
+
+          <!-- DESCRIPTION -->
+
+          <div class="input-group full">
+
+            <label>Description</label>
+
+            <textarea name="description"
+                      placeholder="Describe your product quality, quantity, harvest date…"
+                      required>{{ item.description }}</textarea>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+             LOCATION
+        ========================================================= -->
+
+        <br><br>
+
+        <div class="section-title">
+          <i class="fa-solid fa-location-dot"></i>
+          Location
+        </div>
+
+        <div class="form-grid">
+
+          <div class="input-group">
+            <label>Village</label>
+            <input type="text"
+                   name="village"
+                   placeholder="Village name"
+                   value="{{ item.village }}">
+          </div>
+
+          <div class="input-group">
+            <label>Mandal</label>
+            <input type="text"
+                   name="mandal"
+                   placeholder="Mandal name"
+                   value="{{ item.mandal }}">
+          </div>
+
+          <div class="input-group">
+            <label>District</label>
+            <input type="text"
+                   name="district"
+                   placeholder="District"
+                   value="{{ item.district }}">
+          </div>
+
+          <div class="input-group">
+            <label>State</label>
+            <input type="text"
+                   name="state"
+                   placeholder="State"
+                   value="{{ item.state }}">
+          </div>
+
+          <div class="input-group">
+            <label>Country</label>
+            <input type="text"
+                   name="country"
+                   placeholder="Country"
+                   value="{{ item.country }}">
+          </div>
+
+          <div class="input-group">
+            <label>Pincode</label>
+            <input type="text"
+                   name="pincode"
+                   placeholder="6-digit pincode"
+                   value="{{ item.pincode }}">
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+             IMAGE
+        ========================================================= -->
+
+        <br><br>
+
+        <div class="section-title">
+          <i class="fa-solid fa-image"></i>
+          Product Image
+        </div>
+
+        <div class="file-upload">
+
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+
+          <p>
+            Upload new image if you want to replace old image
+          </p>
+
+          <label class="file-label">
+
+            Upload Image
+
+            <input type="file"
+                   name="image"
+                   accept="image/*">
+
+          </label>
+
+          <!-- OLD IMAGE -->
+
+          {% if item.image %}
+          <div class="old-image">
+
+            <p style="margin-bottom:12px;font-weight:700;color:#166534;">
+              Current Image
+            </p>
+
+            <img src="{{ url_for('static', filename='uploads/marketplace/' ~ item.image) }}"
+                 alt="Old Image">
+
+          </div>
+          {% endif %}
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <button type="submit"
+                class="submit-btn">
+
+          ✦ Save Changes
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

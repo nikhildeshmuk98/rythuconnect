@@ -1,0 +1,1412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ profile_user.username }} - Profile | Rythu Connect</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* =========================================
+   ROOT VARIABLES
+========================================= */
+
+:root{
+  --green-900:#052e0f;
+  --green-800:#0a5c1e;
+  --green-700:#0f8f2f;
+  --green-600:#12a836;
+  --green-500:#1dc94a;
+  --green-400:#45d167;
+  --green-300:#7de59a;
+  --green-200:#b8f5c8;
+  --green-100:#e3fde9;
+  --green-50:#f2fff5;
+
+  --white:#fff;
+  --off-white:#f7fef9;
+
+  --grey-100:#eef5f0;
+  --grey-200:#d4e8d9;
+  --grey-400:#8aab93;
+  --grey-600:#4a6652;
+  --grey-800:#1e2e23;
+
+  --shadow-sm:0 2px 8px rgba(10,92,30,0.07);
+  --shadow-md:0 8px 32px rgba(10,92,30,0.12);
+  --shadow-lg:0 20px 60px rgba(10,92,30,0.16);
+  --shadow-xl:0 40px 100px rgba(10,92,30,0.22);
+
+  --radius-sm:12px;
+  --radius-md:20px;
+  --radius-lg:32px;
+  --radius-xl:44px;
+
+  --sidebar-w:290px;
+  --navbar-h:88px;
+
+  --font-display:'Playfair Display', serif;
+  --font-body:'DM Sans', sans-serif;
+
+  --transition:0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:var(--font-body);
+  background:var(--off-white);
+  color:var(--grey-800);
+  overflow-x:hidden;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar{
+  width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--green-400);
+  border-radius:50px;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar{
+  width:var(--sidebar-w);
+  height:100vh;
+  position:fixed;
+  left:0;
+  top:0;
+  background:var(--green-900);
+  z-index:999;
+  overflow-y:auto;
+  transition:var(--transition);
+}
+
+.sidebar.hide{
+  left:calc(-1 * var(--sidebar-w));
+}
+
+.sidebar-inner{
+  padding:28px 22px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:25px;
+}
+
+.logo-circle{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:linear-gradient(135deg,var(--green-600),var(--green-400));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:24px;
+  box-shadow:0 8px 24px rgba(69,209,103,0.35);
+}
+
+.logo-text h1{
+  color:white;
+  font-size:22px;
+  font-family:var(--font-display);
+}
+
+.logo-text span{
+  color:var(--green-300);
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.sidebar-divider{
+  height:1px;
+  background:rgba(255,255,255,0.1);
+  margin:20px 0;
+}
+
+.menu-label{
+  color:var(--green-400);
+  font-size:11px;
+  margin-bottom:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.menu a{
+  height:52px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-decoration:none;
+  padding:0 16px;
+  border-radius:14px;
+  color:rgba(255,255,255,0.7);
+  transition:var(--transition);
+  font-weight:500;
+}
+
+.menu a:hover{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+.menu a.active{
+  background:linear-gradient(135deg,var(--green-400),var(--green-300));
+  color:var(--green-900);
+  font-weight:700;
+}
+
+.menu-icon{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(255,255,255,0.08);
+}
+
+/* =========================================
+   MAIN
+========================================= */
+
+.main{
+  margin-left:var(--sidebar-w);
+  min-height:100vh;
+  transition:var(--transition);
+}
+
+.main.full{
+  margin-left:0;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar{
+  height:var(--navbar-h);
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(20px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 34px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:var(--shadow-sm);
+}
+
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.toggle-btn{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:var(--green-50);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  color:var(--green-700);
+  border:1px solid var(--green-100);
+}
+
+.search-box{
+  width:380px;
+  height:52px;
+  background:var(--green-50);
+  border:1px solid var(--green-100);
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  gap:12px;
+}
+
+.search-box input{
+  flex:1;
+  border:none;
+  background:transparent;
+  outline:none;
+  font-family:var(--font-body);
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.icon-box{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:var(--green-50);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:1px solid var(--green-100);
+  color:var(--green-700);
+}
+
+.profile-img,
+.profile-letter{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.profile-letter{
+  background:linear-gradient(135deg,var(--green-700),var(--green-500));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:700;
+  font-size:20px;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
+.page{
+  padding:32px 36px 50px;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.profile-hero{
+  background:white;
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  box-shadow:var(--shadow-lg);
+  margin-bottom:30px;
+}
+
+.banner{
+  height:320px;
+  position:relative;
+}
+
+.banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.banner::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    180deg,
+    transparent 20%,
+    rgba(5,46,15,0.55) 100%
+  );
+}
+
+.banner-badge{
+  position:absolute;
+  top:24px;
+  left:24px;
+  z-index:5;
+  background:rgba(255,255,255,0.18);
+  color:white;
+  padding:8px 16px;
+  border-radius:50px;
+  backdrop-filter:blur(12px);
+  font-size:13px;
+  font-weight:600;
+}
+
+.profile-content{
+  padding:0 36px 36px;
+}
+
+.profile-main{
+  margin-top:-76px;
+  position:relative;
+  z-index:10;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.profile-left{
+  display:flex;
+  align-items:flex-end;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+.big-profile,
+.big-letter{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  border:5px solid white;
+  object-fit:cover;
+  background:white;
+  box-shadow:var(--shadow-lg);
+}
+
+.big-letter{
+  background:linear-gradient(135deg,var(--green-700),var(--green-500));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:60px;
+  font-family:var(--font-display);
+  font-weight:700;
+}
+
+.user-details h1{
+  font-size:38px;
+  color:var(--green-800);
+  font-family:var(--font-display);
+  margin-bottom:8px;
+}
+
+.user-profession{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 16px;
+  border-radius:50px;
+  background:var(--green-50);
+  border:1px solid var(--green-200);
+  color:var(--green-700);
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+.user-bio{
+  max-width:550px;
+  line-height:1.7;
+  color:var(--grey-600);
+}
+
+.profile-actions{
+  display:flex;
+  gap:12px;
+}
+
+.follow-btn{
+  height:52px;
+  padding:0 28px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(135deg,var(--green-700),var(--green-500));
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 8px 24px rgba(15,143,47,0.35);
+}
+
+.message-btn{
+  height:52px;
+  padding:0 24px;
+  border-radius:18px;
+  border:1px solid var(--green-200);
+  background:white;
+  color:var(--green-700);
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================================
+   STATS
+========================================= */
+
+.stats-strip{
+  display:flex;
+  gap:1px;
+  margin-top:30px;
+  overflow:hidden;
+  border-radius:20px;
+  background:var(--green-100);
+}
+
+.stat-item{
+  flex:1;
+  background:var(--green-50);
+  padding:22px 10px;
+  text-align:center;
+}
+
+.stat-num{
+  font-size:32px;
+  font-family:var(--font-display);
+  color:var(--green-700);
+  font-weight:700;
+}
+
+.stat-label{
+  font-size:12px;
+  color:var(--grey-400);
+  margin-top:6px;
+  text-transform:uppercase;
+}
+
+/* =========================================
+   TABS
+========================================= */
+
+.tabs-wrap{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:28px;
+}
+
+.tab-btn{
+  height:52px;
+  padding:0 26px;
+  border-radius:18px;
+  border:1px solid var(--green-100);
+  background:white;
+  cursor:pointer;
+  font-weight:600;
+  color:var(--grey-600);
+  transition:var(--transition);
+}
+
+.tab-btn.active{
+  background:linear-gradient(135deg,var(--green-700),var(--green-500));
+  color:white;
+  border:none;
+}
+
+.tab-content{
+  display:none;
+  animation:fadeIn 0.4s ease;
+}
+
+.tab-content.active{
+  display:block;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* =========================================
+   INFO GRID
+========================================= */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.card{
+  background:white;
+  border-radius:var(--radius-lg);
+  padding:28px;
+  box-shadow:var(--shadow-md);
+  transition:var(--transition);
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+}
+
+.card h2{
+  margin-bottom:24px;
+  color:var(--green-800);
+  font-family:var(--font-display);
+  border-left:4px solid var(--green-500);
+  padding-left:16px;
+}
+
+.info-item{
+  padding:14px 0;
+  border-bottom:1px solid var(--green-50);
+}
+
+.info-item:last-child{
+  border-bottom:none;
+}
+
+.info-item h4{
+  font-size:12px;
+  color:var(--grey-400);
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.info-item p{
+  font-size:15px;
+  color:var(--grey-800);
+  font-weight:600;
+}
+
+/* =========================================
+   POSTS & ITEMS GRID
+========================================= */
+
+.posts-grid{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.post-card{
+  background:white;
+  border-radius:var(--radius-lg);
+  padding:28px;
+  box-shadow:var(--shadow-md);
+  transition:var(--transition);
+}
+
+.post-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-lg);
+}
+
+.post-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.post-user{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.post-user img{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--green-300);
+}
+
+.post-user-letter{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--green-700),var(--green-500));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  font-weight:700;
+}
+
+.post-user-info h3{
+  color:var(--green-800);
+  margin-bottom:4px;
+  font-size:18px;
+}
+
+.post-user-info p{
+  color:var(--grey-400);
+  font-size:13px;
+}
+
+.post-content{
+  color:var(--grey-600);
+  line-height:1.8;
+  margin-bottom:20px;
+  font-size:15px;
+}
+
+/* POST IMAGES */
+.post-images{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.post-images.single{
+  grid-template-columns:1fr;
+}
+
+.post-images img{
+  width:100%;
+  height:280px;
+  object-fit:cover;
+  border-radius:20px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.post-images img:hover{
+  transform:scale(0.98);
+}
+
+.post-images img:nth-child(3):last-child{
+  grid-column:span 2;
+}
+
+/* POST VIDEO */
+.post-video video{
+  width:100%;
+  border-radius:20px;
+  margin-bottom:20px;
+  background:#000;
+}
+
+/* REACTIONS */
+.post-bottom{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  padding-top:18px;
+  border-top:1px solid var(--green-50);
+}
+
+.reaction{
+  padding:8px 16px;
+  border-radius:40px;
+  background:var(--green-50);
+  color:var(--green-700);
+  font-size:13px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:0.2s;
+}
+
+.reaction:hover{
+  background:var(--green-100);
+  transform:translateY(-2px);
+}
+
+/* MARKETPLACE ITEM IMAGE */
+.post-image{
+  width:100%;
+  height:340px;
+  object-fit:cover;
+  border-radius:24px;
+  margin-bottom:20px;
+  transition:0.3s;
+}
+
+/* EMPTY STATE */
+.demo-empty{
+  background:white;
+  padding:60px 20px;
+  border-radius:30px;
+  text-align:center;
+  box-shadow:var(--shadow-md);
+}
+
+.demo-empty i{
+  font-size:54px;
+  color:var(--green-300);
+  margin-bottom:16px;
+}
+
+.demo-empty h3{
+  color:var(--green-700);
+  margin-bottom:10px;
+  font-family:var(--font-display);
+}
+
+.demo-empty p{
+  color:var(--grey-400);
+}
+
+/* POST ACTIONS BUTTONS (Edit/Delete) */
+.post-actions{
+  display:flex;
+  gap:10px;
+}
+
+.post-link{
+  text-decoration:none;
+}
+
+.post-btn{
+  padding:8px 16px;
+  border-radius:30px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  font-size:13px;
+  transition:0.2s;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.edit-post{
+  background:var(--green-50);
+  color:var(--green-700);
+}
+
+.edit-post:hover{
+  background:var(--green-100);
+}
+
+.delete-post{
+  background:#ffeeee;
+  color:#d9534f;
+}
+
+.delete-post:hover{
+  background:#ffe0e0;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:950px){
+  .sidebar{
+    left:calc(-1 * var(--sidebar-w));
+  }
+  .sidebar.show{
+    left:0;
+  }
+  .main{
+    margin-left:0;
+  }
+  .search-box{
+    display:none;
+  }
+}
+
+@media(max-width:700px){
+  .page{
+    padding:16px;
+  }
+  .profile-content{
+    padding:0 18px 24px;
+  }
+  .profile-main{
+    margin-top:-55px;
+  }
+  .big-profile,
+  .big-letter{
+    width:110px;
+    height:110px;
+  }
+  .big-letter{
+    font-size:42px;
+  }
+  .user-details h1{
+    font-size:28px;
+  }
+  .banner{
+    height:200px;
+  }
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+  .post-images{
+    grid-template-columns:1fr;
+  }
+  .post-images img{
+    height:220px;
+  }
+  .post-image{
+    height:220px;
+  }
+  .stats-strip{
+    flex-wrap:wrap;
+  }
+  .stat-item{
+    min-width:100px;
+  }
+}
+
+
+.profile-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:65px;
+  right:0;
+  width:220px;
+  background:white;
+  border-radius:16px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.15);
+  overflow:hidden;
+
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-10px);
+  transition:0.25s ease;
+  z-index:9999;
+}
+
+.profile-dropdown.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+/* HEADER */
+.dropdown-header{
+  padding:14px;
+  background:linear-gradient(135deg,#0f8f2f,#45d167);
+  color:white;
+}
+
+.dh-name{
+  font-weight:700;
+  font-size:14px;
+}
+
+.dh-role{
+  font-size:11px;
+  opacity:0.8;
+}
+
+/* LINKS */
+.profile-dropdown a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  text-decoration:none;
+  color:#1e2e23;
+  font-weight:600;
+  font-size:14px;
+  transition:0.2s;
+}
+
+.profile-dropdown a:hover{
+  background:#f2fff5;
+  color:#0f8f2f;
+}
+
+.profile-dropdown .logout{
+  color:#d9534f;
+}
+
+.profile-dropdown .logout:hover{
+  background:#ffecec;
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <div class="logo">
+      <div class="logo-circle">
+        <i class="fa-solid fa-seedling"></i>
+      </div>
+      <div class="logo-text">
+        <h1>Rythu Connect</h1>
+        <span>Farmer Platform</span>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="menu-label">Main Menu</div>
+    <nav class="menu">
+      <a href="/rythu_dashboard">
+        <div class="menu-icon"><i class="fa-solid fa-house"></i></div>
+        Home
+      </a>
+      <a href="/marketplace">
+        <div class="menu-icon"><i class="fa-solid fa-store"></i></div>
+        Marketplace
+      </a>
+      <a href="/community">
+        <div class="menu-icon"><i class="fa-solid fa-users"></i></div>
+        Community
+      </a>
+      <a href="/weather_forecast">
+        <div class="menu-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+        Weather
+      </a>
+      <a href="/jobs">
+        <div class="menu-icon"><i class="fa-solid fa-briefcase"></i></div>
+        Jobs
+      </a>
+      <a href="/profile">
+        <div class="menu-icon"><i class="fa-solid fa-user"></i></div>
+        My Profile
+      </a>
+      <a href="#" class="active">
+        <div class="menu-icon"><i class="fa-solid fa-id-card"></i></div>
+        View Profile
+      </a>
+    </nav>
+  </div>
+</div>
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<div class="main" id="main">
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-left">
+      <div class="toggle-btn" id="toggleBtn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search farmers, crops, marketplace...">
+      </div>
+    </div>
+   <div class="nav-right">
+
+  <!-- NOTIFICATION -->
+  <div class="icon-box">
+    <i class="fa-solid fa-bell"></i>
+  </div>
+
+  <!-- PROFILE WRAP -->
+  <div class="profile-wrap">
+
+    {% if current_user.profile_image and current_user.profile_image != 'NULL' %}
+    <img src="{{ url_for('static', filename='uploads/profile_images/' ~ current_user.profile_image) }}"
+         class="profile-img"
+         id="profileBtn">
+    {% else %}
+    <div class="profile-letter"
+         id="profileBtn">
+      {{ current_user.username[0] | upper }}
+    </div>
+    {% endif %}
+
+    <!-- DROPDOWN -->
+    <div class="profile-dropdown" id="profileDropdown">
+
+      <div class="dropdown-header">
+        <div class="dh-name">{{ current_user.username }}</div>
+        <div class="dh-role">Farmer</div>
+      </div>
+
+      <a href="/profile">
+        <i class="fa-solid fa-user"></i> Profile
+      </a>
+
+      <a href="/settings">
+        <i class="fa-solid fa-gear"></i> Settings
+      </a>
+
+      <a href="/analytics">
+        <i class="fa-solid fa-chart-line"></i> Analytics
+      </a>
+
+      <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+  </div>
+
+  <!-- PAGE -->
+  <div class="page">
+
+    <!-- HERO SECTION -->
+    <div class="profile-hero">
+      <div class="banner">
+        <div class="banner-badge">
+          <i class="fa-solid fa-circle-check"></i> Verified Farmer
+        </div>
+        {% if profile_user.banner_image and profile_user.banner_image != 'NULL' %}
+        <img src="{{ url_for('static', filename='uploads/banners/' ~ profile_user.banner_image) }}" alt="Banner">
+        {% else %}
+        <img src="https://placehold.co/1200x400/e3fde9/0f8f2f?text=Farm+Banner" alt="Banner">
+        {% endif %}
+      </div>
+      <div class="profile-content">
+        <div class="profile-main">
+          <div class="profile-left">
+            {% if profile_user.profile_image and profile_user.profile_image != 'NULL' %}
+            <img src="{{ url_for('static', filename='uploads/profile_images/' ~ profile_user.profile_image) }}" class="big-profile">
+            {% else %}
+            <div class="big-letter">{{ profile_user.username[0] | upper }}</div>
+            {% endif %}
+            <div class="user-details">
+              <h1>{{ profile_user.username }}</h1>
+              <div class="user-profession"><i class="fa-solid fa-tractor"></i> {{ profile_user.profession }}</div>
+              <p class="user-bio">{{ profile_user.bio }}</p>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="follow-btn"><i class="fa-solid fa-user-plus"></i> Follow</button>
+<a href="{{ url_for('chat', user_id=profile_user.id) }}" class="message-btn">
+  <i class="fa-solid fa-paper-plane"></i> Message
+</a>
+          </div>
+        </div>
+        <div class="stats-strip">
+          <div class="stat-item"><div class="stat-num">{{ followers }}</div><div class="stat-label">Followers</div></div>
+          <div class="stat-item"><div class="stat-num">{{ following }}</div><div class="stat-label">Following</div></div>
+          <div class="stat-item"><div class="stat-num">{{ total_posts }}</div><div class="stat-label">Posts</div></div>
+          <div class="stat-item"><div class="stat-num">{{ total_likes }}</div><div class="stat-label">Likes</div></div>
+          <div class="stat-item"><div class="stat-num">{{ total_comments }}</div><div class="stat-label">Comments</div></div>
+          <div class="stat-item"><div class="stat-num">{{ total_shares }}</div><div class="stat-label">Shares</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-wrap">
+      <button class="tab-btn active" onclick="showTab(event,'about')">About</button>
+      <button class="tab-btn" onclick="showTab(event,'posts')">Posts</button>
+      <button class="tab-btn" onclick="showTab(event,'items')">Marketplace Items</button>
+    </div>
+
+    <!-- ABOUT TAB -->
+    <div class="tab-content active" id="about">
+      <div class="info-grid">
+        <div class="card">
+          <h2>Basic Information</h2>
+          <div class="info-item"><h4>Full Name</h4><p>{{ profile_user.full_name }}</p></div>
+          <div class="info-item"><h4>Email</h4><p>{{ profile_user.email }}</p></div>
+          <div class="info-item"><h4>Mobile</h4><p>{{ profile_user.mobile }}</p></div>
+          <div class="info-item"><h4>Profession</h4><p>{{ profile_user.profession }}</p></div>
+          <div class="info-item"><h4>Location</h4><p>{{ profile_user.village }}, {{ profile_user.mandal }}, {{ profile_user.district }}, {{ profile_user.state }}</p></div>
+          <div class="info-item"><h4>Skills</h4><p>{{ profile_user.skills }}</p></div>
+        </div>
+        <div class="card">
+          <h2>Farming Details</h2>
+          <div class="info-item"><h4>Land Area</h4><p>{{ profile_user.land_area }} Acres</p></div>
+          <div class="info-item"><h4>Experience</h4><p>{{ profile_user.farming_experience }} Years</p></div>
+          <div class="info-item"><h4>Irrigation</h4><p>{{ profile_user.irrigation_type }}</p></div>
+          <div class="info-item"><h4>Main Crops</h4><p>{{ profile_user.main_crops }}</p></div>
+          <div class="info-item"><h4>Farming Type</h4><p>{{ profile_user.farming_type }}</p></div>
+          <div class="info-item"><h4>Bio</h4><p>{{ profile_user.bio }}</p></div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- =========================================
+     POSTS TAB
+========================================= -->
+
+<div class="tab-content" id="posts">
+
+  <div class="posts-grid">
+
+    {% for post in posts %}
+
+    <div class="post-card">
+
+      <!-- POST HEADER -->
+
+      <div class="post-top">
+
+        <div class="post-user">
+
+          {% if profile_user.profile_image and profile_user.profile_image != 'NULL' %}
+
+          <img src="{{ url_for('static',
+                   filename='uploads/profile_images/' ~ profile_user.profile_image) }}"
+               alt="Profile">
+
+          {% else %}
+
+          <div class="post-user-letter">
+            {{ profile_user.username[0] | upper }}
+          </div>
+
+          {% endif %}
+
+          <div class="post-user-info">
+
+            <h3>{{ profile_user.username }}</h3>
+
+            <p>
+              <i class="fa-regular fa-clock"></i>
+              {{ post.created_at.strftime('%d %b %Y %I:%M %p') }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- POST CONTENT -->
+
+      {% if post.content %}
+
+      <div class="post-content">
+        {{ post.content }}
+      </div>
+
+      {% endif %}
+
+      <!-- =====================================
+           POST IMAGES
+      ====================================== -->
+
+      {% if post.images and post.images|length > 0 %}
+
+      <div class="post-images {% if post.images|length == 1 %}single{% endif %}">
+
+        {% for image in post.images %}
+
+          {% if image.image_path %}
+
+          <img src="{{ url_for('static',
+                   filename='uploads/post_images/' ~ image.image_path) }}"
+               alt="Post Image"
+               loading="lazy"
+               onclick="openImageModal(this.src)"
+               onerror="this.style.display='none';">
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+      {% endif %}
+
+      <!-- =====================================
+           POST VIDEO
+      ====================================== -->
+
+      {% if post.video and post.video != 'NULL' %}
+
+      <div class="post-video">
+
+        <video controls>
+
+          <source src="{{ url_for('static',
+                   filename='uploads/post_videos/' ~ post.video) }}"
+                  type="video/mp4">
+
+          Your browser does not support video.
+
+        </video>
+
+      </div>
+
+      {% endif %}
+
+      <!-- =====================================
+           REACTIONS
+      ====================================== -->
+
+      <div class="post-bottom">
+
+        <div class="reaction">
+          <i class="fa-solid fa-heart"></i>
+          {{ post.likes or 0 }} Likes
+        </div>
+
+        <div class="reaction">
+          <i class="fa-solid fa-comment"></i>
+          {{ post.comments or 0 }} Comments
+        </div>
+
+        <div class="reaction">
+          <i class="fa-solid fa-share"></i>
+          {{ post.shares or 0 }} Shares
+        </div>
+
+        <div class="reaction">
+          <i class="fa-solid fa-bookmark"></i>
+          {{ post.saves or 0 }} Saves
+        </div>
+
+      </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="demo-empty">
+
+      <i class="fa-solid fa-seedling"></i>
+
+      <h3>No Posts Yet</h3>
+
+      <p>User has not shared any posts yet.</p>
+
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+
+
+    <!-- =========================================
+         MARKETPLACE ITEMS TAB (Enhanced)
+    ========================================= -->
+    <div class="tab-content" id="items">
+      <div class="posts-grid">
+        {% for item in marketplace_items %}
+        <div class="post-card">
+          <div class="post-top">
+            <div class="post-user">
+              {% if profile_user.profile_image and profile_user.profile_image != 'NULL' %}
+              <img src="{{ url_for('static', filename='uploads/profile_images/' ~ profile_user.profile_image) }}" alt="Profile">
+              {% else %}
+              <div class="post-user-letter">{{ profile_user.username[0] | upper }}</div>
+              {% endif %}
+              <div class="post-user-info">
+                <h3>{{ profile_user.username }}</h3>
+                <p><i class="fa-solid fa-store"></i> Marketplace Seller</p>
+              </div>
+            </div>
+
+          </div>
+          {% if item.image and item.image != 'NULL' %}
+          <img class="post-image" src="{{ url_for('static', filename='uploads/marketplace/' ~ item.image) }}" alt="Marketplace Item" loading="lazy" onerror="this.style.display='none';">
+          {% endif %}
+          <div class="post-content">
+            <h2 style="color:var(--green-700);margin-bottom:12px;">{{ item.title }}</h2>
+            <p style="margin-bottom:16px;">{{ item.description }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;">
+              <div class="reaction"><i class="fa-solid fa-indian-rupee-sign"></i> ₹ {{ item.price }}</div>
+              {% if item.category %}<div class="reaction"><i class="fa-solid fa-tag"></i> {{ item.category }}</div>{% endif %}
+              {% if item.location %}<div class="reaction"><i class="fa-solid fa-location-dot"></i> {{ item.location }}</div>{% endif %}
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="demo-empty">
+          <i class="fa-solid fa-store"></i>
+          <h3>No Marketplace Items</h3>
+          <p>User has not added any products for sale.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+<script>
+// Sidebar Toggle
+const sidebar = document.getElementById('sidebar');
+const main = document.getElementById('main');
+const toggleBtn = document.getElementById('toggleBtn');
+
+toggleBtn.addEventListener('click', () => {
+  if(window.innerWidth < 950){
+    sidebar.classList.toggle('show');
+  }else{
+    sidebar.classList.toggle('hide');
+    main.classList.toggle('full');
+  }
+});
+
+// Tab Switching
+function showTab(event, tabId){
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// Image Modal Preview (optional)
+function openImageModal(src){
+  const modalDiv = document.createElement('div');
+  modalDiv.style.position = 'fixed';
+  modalDiv.style.top = '0';
+  modalDiv.style.left = '0';
+  modalDiv.style.width = '100%';
+  modalDiv.style.height = '100%';
+  modalDiv.style.backgroundColor = 'rgba(0,0,0,0.85)';
+  modalDiv.style.display = 'flex';
+  modalDiv.style.alignItems = 'center';
+  modalDiv.style.justifyContent = 'center';
+  modalDiv.style.zIndex = '10000';
+  modalDiv.style.cursor = 'pointer';
+  const imgElem = document.createElement('img');
+  imgElem.src = src;
+  imgElem.style.maxWidth = '90%';
+  imgElem.style.maxHeight = '90%';
+  imgElem.style.borderRadius = '20px';
+  imgElem.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+  modalDiv.appendChild(imgElem);
+  modalDiv.onclick = () => modalDiv.remove();
+  document.body.appendChild(modalDiv);
+}
+const profileBtn = document.getElementById("profileBtn");
+const profileDropdown = document.getElementById("profileDropdown");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  profileDropdown.classList.toggle("active");
+});
+
+document.addEventListener("click", () => {
+  profileDropdown.classList.remove("active");
+});
+</script>
+
+</body>
+</html>

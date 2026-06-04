@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Government Scheme</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #43a047;
+            box-shadow: 0 0 6px rgba(67, 160, 71, 0.3);
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #43a047, #2e7d32);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+        }
+
+        .label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Government Scheme</h1>
+<form action="{{ url_for('update_scheme', id=scheme[0]) }}" method="POST">
+
+    <!-- Scheme Name -->
+    <div class="form-group">
+        <label class="label">Scheme Name</label>
+        <input type="text" name="scheme_name" value="{{ scheme[1] }}" required>
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+        <label class="label">Category</label>
+        <select name="category" required>
+            <option value="Subsidy" {% if scheme[2] == "Subsidy" %}selected{% endif %}>Subsidy</option>
+            <option value="Loan" {% if scheme[2] == "Loan" %}selected{% endif %}>Loan</option>
+            <option value="Insurance" {% if scheme[2] == "Insurance" %}selected{% endif %}>Insurance</option>
+            <option value="Training" {% if scheme[2] == "Training" %}selected{% endif %}>Training</option>
+            <option value="Market Support" {% if scheme[2] == "Market Support" %}selected{% endif %}>Market Support</option>
+        </select>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+        <label class="label">Description</label>
+        <textarea name="description">{{ scheme[3] }}</textarea>
+    </div>
+
+    <!-- Eligibility -->
+    <div class="form-group">
+        <label class="label">Eligibility</label>
+        <input type="text" name="eligibility" value="{{ scheme[4] }}">
+    </div>
+
+    <!-- Benefits -->
+    <div class="form-group">
+        <label class="label">Benefits</label>
+        <input type="text" name="benefits" value="{{ scheme[5] }}">
+    </div>
+
+    <!-- State -->
+    <div class="form-group">
+        <label class="label">State</label>
+        <input type="text" name="state" value="{{ scheme[6] }}">
+    </div>
+
+    <!-- Website -->
+    <div class="form-group">
+        <label class="label">Website Link</label>
+        <input type="text" name="website_link" value="{{ scheme[7] }}">
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+        <label class="label">Image URL</label>
+        <input type="text" name="image_url" value="{{ scheme[8] }}">
+    </div>
+
+    <button class="btn" type="submit">Update Scheme</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

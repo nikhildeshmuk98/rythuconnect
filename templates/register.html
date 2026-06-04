@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Rythu Connect</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(135deg,#e8ffe8,#ffffff,#f0fff0);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 20px;
+            overflow-x:hidden;
+        }
+
+        .background-shape{
+            position:fixed;
+            border-radius:50%;
+            filter:blur(80px);
+            z-index:-1;
+        }
+
+        .shape1{
+            width:350px;
+            height:350px;
+            background:#8cff8c;
+            top:-100px;
+            left:-100px;
+        }
+
+        .shape2{
+            width:300px;
+            height:300px;
+            background:#7ef57e;
+            bottom:-100px;
+            right:-100px;
+        }
+
+        .register-container{
+            width:100%;
+            max-width:1400px;
+            display:grid;
+            grid-template-columns:1fr 1.2fr;
+            background:white;
+            border-radius:40px;
+            overflow:hidden;
+            box-shadow:0 25px 60px rgba(0,0,0,0.1);
+        }
+
+        /* ================= LEFT SECTION ================= */
+
+        .left-section{
+            background:linear-gradient(135deg,#0f5c0f,#34a853);
+            padding:60px;
+            color:white;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .left-section::before{
+            content:'';
+            position:absolute;
+            width:500px;
+            height:500px;
+            background:rgba(255,255,255,0.08);
+            border-radius:50%;
+            top:-200px;
+            right:-200px;
+        }
+
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:15px;
+            margin-bottom:50px;
+            position:relative;
+            z-index:2;
+        }
+
+        .logo-circle{
+            width:65px;
+            height:65px;
+            border-radius:50%;
+            background:white;
+            color:#1f7a1f;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:28px;
+        }
+
+        .logo h1{
+            font-size:38px;
+            font-weight:800;
+        }
+
+        .left-section h2{
+            font-size:55px;
+            line-height:75px;
+            margin-bottom:25px;
+            position:relative;
+            z-index:2;
+        }
+
+        .left-section p{
+            font-size:18px;
+            line-height:35px;
+            color:#ecffec;
+            margin-bottom:40px;
+            position:relative;
+            z-index:2;
+        }
+
+        .feature-boxes{
+            display:flex;
+            flex-direction:column;
+            gap:25px;
+            position:relative;
+            z-index:2;
+        }
+
+        .feature-card{
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(10px);
+            padding:22px;
+            border-radius:22px;
+            display:flex;
+            align-items:center;
+            gap:20px;
+        }
+
+        .feature-card i{
+            width:60px;
+            height:60px;
+            background:white;
+            color:#1f7a1f;
+            border-radius:18px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+        }
+
+        .feature-card h3{
+            margin-bottom:6px;
+        }
+
+        .feature-card p{
+            margin:0;
+            line-height:24px;
+            font-size:14px;
+        }
+
+        /* ================= RIGHT SECTION ================= */
+
+        .right-section{
+            padding:50px;
+            overflow-y:auto;
+            max-height:100vh;
+        }
+
+        .top-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:40px;
+        }
+
+        .top-header h1{
+            color:#1f7a1f;
+            font-size:40px;
+        }
+
+        .home-btn{
+            padding:12px 24px;
+            border:none;
+            border-radius:50px;
+            background:#e9ffe9;
+            color:#1f7a1f;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .home-btn:hover{
+            background:#1f7a1f;
+            color:white;
+        }
+
+        .form-grid{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:25px;
+        }
+
+        .input-box{
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .input-box.full{
+            grid-column:1/3;
+        }
+
+        .input-box label{
+            font-weight:600;
+            color:#1f7a1f;
+            font-size:15px;
+        }
+
+        .input-box input,
+        .input-box select,
+        .input-box textarea{
+            width:100%;
+            padding:18px 20px;
+            border-radius:16px;
+            border:1px solid #d8e7d8;
+            background:#f8fff8;
+            outline:none;
+            transition:0.3s;
+            font-size:15px;
+        }
+
+        .input-box textarea{
+            resize:none;
+            height:140px;
+        }
+
+        .input-box input:focus,
+        .input-box select:focus,
+        .input-box textarea:focus{
+            border-color:#1f7a1f;
+            background:white;
+            box-shadow:0 0 0 4px rgba(0,128,0,0.1);
+        }
+
+        .upload-box{
+            border:2px dashed #9bd69b;
+            border-radius:20px;
+            padding:40px;
+            text-align:center;
+            background:#f6fff6;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .upload-box:hover{
+            background:#edffed;
+        }
+
+        .upload-box i{
+            font-size:45px;
+            color:#1f7a1f;
+            margin-bottom:15px;
+        }
+
+        .upload-box h3{
+            color:#1f7a1f;
+            margin-bottom:10px;
+        }
+
+        .upload-box p{
+            color:#666;
+            font-size:14px;
+        }
+
+        .upload-box input{
+            display:none;
+        }
+
+        .preview-container{
+            margin-top:20px;
+            display:flex;
+            justify-content:center;
+        }
+
+        .preview-container img{
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            border:5px solid #1f7a1f;
+            display:none;
+        }
+
+        .terms-box{
+            grid-column:1/3;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-top:10px;
+        }
+
+        .terms-box input{
+            width:22px;
+            height:22px;
+            accent-color:#1f7a1f;
+        }
+
+        .terms-box p{
+            color:#444;
+            font-size:14px;
+        }
+
+        .register-btn{
+            grid-column:1/3;
+            width:100%;
+            padding:20px;
+            border:none;
+            border-radius:18px;
+            background:linear-gradient(135deg,#1f7a1f,#34a853);
+            color:white;
+            font-size:18px;
+            font-weight:700;
+            cursor:pointer;
+            transition:0.4s;
+            box-shadow:0 15px 30px rgba(0,128,0,0.2);
+        }
+
+        .register-btn:hover{
+            transform:translateY(-5px);
+        }
+
+        .bottom-text{
+            grid-column:1/3;
+            text-align:center;
+            margin-top:10px;
+            color:#555;
+        }
+
+        .bottom-text a{
+            color:#1f7a1f;
+            font-weight:700;
+            text-decoration:none;
+        }
+
+        .skill-tags{
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-top:10px;
+        }
+
+        .skill-tags span{
+            background:#e9ffe9;
+            color:#1f7a1f;
+            padding:8px 15px;
+            border-radius:50px;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        @media(max-width:1200px){
+            .register-container{
+                grid-template-columns:1fr;
+            }
+
+            .left-section{
+                display:none;
+            }
+        }
+
+        @media(max-width:700px){
+
+            .right-section{
+                padding:30px 20px;
+            }
+
+            .form-grid{
+                grid-template-columns:1fr;
+            }
+
+            .input-box.full,
+            .terms-box,
+            .register-btn,
+            .bottom-text{
+                grid-column:1/2;
+            }
+
+            .top-header{
+                flex-direction:column;
+                gap:20px;
+                align-items:flex-start;
+            }
+
+            .top-header h1{
+                font-size:32px;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-shape shape1"></div>
+    <div class="background-shape shape2"></div>
+
+    <div class="register-container">
+
+        <!-- ================= LEFT SECTION ================= -->
+
+        <div class="left-section">
+
+            <div class="logo">
+                <div class="logo-circle">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <h1>Rythu Connect</h1>
+            </div>
+
+            <h2>
+                Join India’s <br>
+                Largest Smart <br>
+                Farming Network
+            </h2>
+
+            <p>
+                Connect with farmers, agriculture experts, researchers,
+                and agri-business owners using AI-powered smart agriculture technology.
+            </p>
+
+            <div class="feature-boxes">
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-robot"></i>
+                    <div>
+                        <h3>AI Farming Assistant</h3>
+                        <p>Get smart crop guidance & disease detection support.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-cloud-sun-rain"></i>
+                    <div>
+                        <h3>Weather Forecast</h3>
+                        <p>Live weather updates based on your village & location.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-users"></i>
+                    <div>
+                        <h3>Farmer Community</h3>
+                        <p>Share experiences and connect with nearby farmers.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RIGHT SECTION ================= -->
+
+        <div class="right-section">
+
+            <div class="top-header">
+                <h1>Create Account</h1>
+                <button class="home-btn" onclick="window.location.href='/'">
+                    <i class="fa-solid fa-house"></i>
+                    Back To Home
+                </button>
+            </div>
+
+            <form class="form-grid" action="/register" method="POST" enctype="multipart/form-data">
+
+                <!-- BASIC INFO -->
+
+                <div class="input-box">
+                    <label>Full Name</label>
+                    <input type="text" name="full_name" placeholder="Enter Full Name" required>
+                </div>
+
+                <div class="input-box">
+                    <label>User Name</label>
+                    <input type="text" name="username" placeholder="Enter User Name" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Gmail</label>
+                    <input type="email" name="email" placeholder="Enter Gmail Address" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Mobile Number</label>
+                    <input type="number" name="mobile" placeholder="Enter Mobile Number" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter Password" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                </div>
+
+                <!-- PROFESSION -->
+
+                <div class="input-box full">
+                    <label>Profession</label>
+                    <select name="profession" required>
+                        <option value="">Select Profession</option>
+                        <option>Farmer</option>
+                        <option>Student</option>
+                        <option>Agri Business Owner</option>
+                        <option>Researcher</option>
+                        <option>Exporter</option>
+                        <option>Entrepreneur</option>
+                        <option>Equipment Dealer</option>
+                    </select>
+                </div>
+
+                <!-- LOCATION -->
+
+                <div class="input-box">
+                    <label>Village</label>
+                    <input type="text" name="village" placeholder="Enter Village">
+                </div>
+
+                <div class="input-box">
+                    <label>Mandal</label>
+                    <input type="text" name="mandal" placeholder="Enter Mandal">
+                </div>
+
+                <div class="input-box">
+                    <label>District</label>
+                    <input type="text" name="district" placeholder="Enter District">
+                </div>
+
+                <div class="input-box">
+                    <label>State</label>
+                    <input type="text" name="state" placeholder="Enter State">
+                </div>
+
+                <div class="input-box">
+                    <label>Country</label>
+                    <input type="text" name="country" placeholder="Enter Country">
+                </div>
+
+                <div class="input-box">
+                    <label>Pincode</label>
+                    <input type="number" name="pincode" placeholder="Enter Pincode">
+                </div>
+
+                <!-- SKILLS -->
+
+                <div class="input-box full">
+                    <label>Skills / Crops / Interests</label>
+                    <input type="text" id="skillsInput" name="skills" placeholder="Example : Rice Farming, Organic Farming, Irrigation, Cotton">
+
+                    <div class="skill-tags" id="skillTags"></div>
+                </div>
+
+                <!-- BIO -->
+
+                <div class="input-box full">
+                    <label>Bio</label>
+                    <textarea name="bio" placeholder="Tell Something About Yourself"></textarea>
+                </div>
+
+                <!-- PROFILE IMAGE -->
+
+                <div class="input-box full">
+
+                    <label>Profile Picture</label>
+
+                    <label class="upload-box">
+
+                        <input type="file" name="profile_image" id="profileInput" accept="image/*">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        <h3>Choose Profile Picture</h3>
+
+                        <p>Upload JPG, PNG or JPEG Image</p>
+
+                    </label>
+
+                    <div class="preview-container">
+                        <img id="previewImage">
+                    </div>
+
+                </div>
+
+                <!-- TERMS -->
+
+                <div class="terms-box">
+                    <input type="checkbox" required>
+                    <p>
+                        I agree to the Terms & Conditions and Privacy Policy of Rythu Connect.
+                    </p>
+                </div>
+
+                <!-- REGISTER BUTTON -->
+
+                <button class="register-btn" type="submit">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Create Rythu Connect Account
+                </button>
+
+                <div class="bottom-text">
+                    Already have an account ?
+                    <a href="/login">Login</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ================= PROFILE IMAGE PREVIEW =================
+
+        const profileInput = document.getElementById('profileInput');
+        const previewImage = document.getElementById('previewImage');
+
+        profileInput.addEventListener('change', function(){
+
+            const file = this.files[0];
+
+            if(file){
+
+                const reader = new FileReader();
+
+                reader.onload = function(e){
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                }
+
+                reader.readAsDataURL(file);
+            }
+
+        });
+
+
+        // ================= SKILL TAGS =================
+
+        const skillsInput = document.getElementById('skillsInput');
+        const skillTags = document.getElementById('skillTags');
+
+        skillsInput.addEventListener('keyup', function(e){
+
+            if(e.key === ','){
+
+                let value = skillsInput.value.replace(',', '').trim();
+
+                if(value !== ''){
+
+                    const tag = document.createElement('span');
+                    tag.innerText = value;
+                    skillTags.appendChild(tag);
+
+                    skillsInput.value = '';
+                }
+
+            }
+
+        })
+
+
+        // ================= PASSWORD VALIDATION =================
+
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function(e){
+
+            const password = document.querySelector('input[name="password"]').value;
+            const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+
+            if(password !== confirmPassword){
+                e.preventDefault();
+                alert('Password and Confirm Password Do Not Match');
+            }
+
+        })
+
+    </script>
+
+</body>
+</html>

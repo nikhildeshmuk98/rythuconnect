@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Rythu Connect</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f5fff7;
+    color: #1b3a1b;
+}
+
+/* ========= STICKY NAVIGATION (Fully Integrated) ========= */
+#mainNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 5%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0, 32, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #d9f0da;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.65rem;
+    letter-spacing: -0.3px;
+}
+
+.logo-mark {
+    background: linear-gradient(145deg, #2b7a2b, #1b5e1f);
+    width: 42px;
+    height: 42px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(33, 97, 33, 0.2);
+}
+
+.logo-mark i {
+    font-size: 1.7rem;
+    color: white;
+}
+
+.logo-text {
+    color: #1b4d1b;
+}
+
+.logo-text span {
+    color: #3a9b3a;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #1f4821;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.nav-links a:hover {
+    color: #2b8c2b;
+    transform: translateY(-1px);
+}
+
+.nav-cta {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-ghost, .btn-solid {
+    border: none;
+    padding: 8px 22px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1.5px solid #3b8b3b;
+    color: #2a6e2a;
+}
+
+.btn-ghost:hover {
+    background: #e9f7e9;
+    border-color: #2b6e2b;
+    transform: scale(0.97);
+}
+
+.btn-solid {
+    background: linear-gradient(105deg, #1f6e1f, #2e8b2e);
+    color: white;
+    box-shadow: 0 4px 10px rgba(30, 100, 30, 0.2);
+}
+
+.btn-solid:hover {
+    background: linear-gradient(105deg, #166316, #247a24);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 116, 37, 0.25);
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(125deg, #1b5e20cc, #2e7d32cc), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format');
+    background-size: cover;
+    background-position: center 30%;
+    color: white;
+    padding: 90px 20px;
+    text-align: center;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    font-size: 3.2rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.hero p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+/* SECTION */
+.section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 70px 24px;
+}
+
+.section h2 {
+    text-align: center;
+    color: #1f5822;
+    font-size: 2.2rem;
+    margin-bottom: 48px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+    position: relative;
+}
+
+.section h2:after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: #4caf50;
+    border-radius: 4px;
+    margin: 14px auto 0;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 28px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(2px);
+    padding: 28px 22px;
+    border-radius: 32px;
+    box-shadow: 0 12px 28px -8px rgba(0, 32, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid rgba(110, 160, 90, 0.2);
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 36px -12px rgba(40, 90, 30, 0.2);
+    border-color: #b8e0b0;
+}
+
+.card i {
+    font-size: 2.6rem;
+    background: linear-gradient(135deg, #2c7a2c, #5fad5f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    font-size: 1.55rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #154015;
+}
+
+.card p {
+    color: #2f4d2f;
+    line-height: 1.45;
+    font-size: 0.98rem;
+}
+
+/* INFO BOX */
+.info-box {
+    background: #ebf7ea;
+    padding: 40px 35px;
+    border-radius: 32px;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    border: 1px solid #cae3c4;
+}
+
+.info-box p {
+    margin-bottom: 16px;
+}
+
+.info-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* CTA */
+.cta {
+    background: linear-gradient(125deg, #206a20, #398a39);
+    color: white;
+    text-align: center;
+    padding: 64px 32px;
+    border-radius: 48px;
+    box-shadow: 0 20px 30px -10px rgba(30, 80, 30, 0.3);
+}
+
+.cta h2 {
+    font-size: 2.3rem;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.cta h2:after {
+    background: #ffec9f;
+    width: 80px;
+}
+
+.cta p {
+    font-size: 1.1rem;
+    max-width: 550px;
+    margin: 0 auto 24px;
+    opacity: 0.92;
+}
+
+.cta a {
+    display: inline-block;
+    background: white;
+    color: #1f6422;
+    padding: 14px 38px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: 0.2s;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.cta a:hover {
+    background: #f9fff7;
+    transform: scale(1.02);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.15);
+}
+
+/* HIGHLIGHT */
+.highlight {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* Footer */
+.footer-note {
+    text-align: center;
+    padding: 32px 20px 40px;
+    font-size: 0.85rem;
+    color: #457845;
+    border-top: 1px solid #cfebcf;
+    margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+    #mainNav {
+        flex-direction: column;
+        gap: 14px;
+        padding: 15px 20px;
+    }
+    .nav-links {
+        gap: 1.3rem;
+        justify-content: center;
+    }
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .section {
+        padding: 50px 20px;
+    }
+    .section h2 {
+        font-size: 1.9rem;
+    }
+    .card {
+        padding: 22px 18px;
+    }
+    .info-box {
+        padding: 25px 20px;
+    }
+}
+
+/* Animation */
+@keyframes float {
+    0% { transform: translateY(0px);}
+    100% { transform: translateY(-5px);}
+}
+
+.fa-seedling {
+    animation: float 3s infinite ease-in-out;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ========= STICKY NAVIGATION (Jinja2 with url_for) ========= -->
+<nav id="mainNav">
+    <a href="{{ url_for('home') }}" class="logo">
+        <div class="logo-mark"><i class="fa-solid fa-seedling"></i></div>
+        <div class="logo-text">Rythu<span>Connect</span></div>
+    </a>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('features') }}">Features</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('team') }}">Team</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+    <div class="nav-cta">
+        <button class="btn-ghost" onclick="window.location.href='{{ url_for('login') }}'">
+            Login
+        </button>
+        <button class="btn-solid" onclick="window.location.href='{{ url_for('register') }}'">
+            Join Hub
+        </button>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>🌾 About Rythu Connect</h1>
+    <p>Empowering Farmers with Smart Agriculture Technology</p>
+</div>
+
+<!-- WHAT IS RYTHU CONNECT -->
+<div class="section">
+    <h2>🌱 What is Rythu Connect?</h2>
+    <div class="info-box">
+        <p>
+            <span class="highlight">Rythu Connect</span> is a smart digital agriculture platform designed
+            to connect farmers, buyers, communities, and government services in one place.
+        </p>
+        <p>
+            This platform helps farmers with <b>real-time market prices</b>, 
+            <b>weather updates</b>, <b>AI crop support</b>, <b>disease detection</b>,
+            and a powerful <b>agriculture marketplace</b>.
+        </p>
+    </div>
+</div>
+
+<!-- WHY USE RYTHU CONNECT -->
+<div class="section">
+    <h2>🚀 Why Use Rythu Connect?</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa fa-indian-rupee-sign"></i>
+            <h3>Better Income</h3>
+            <p>Sell crops directly without middlemen and earn more profit.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-cloud-sun"></i>
+            <h3>Smart Farming</h3>
+            <p>Get weather updates and AI-based farming suggestions.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-users"></i>
+            <h3>Community Support</h3>
+            <p>Connect with other farmers and share knowledge.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-bell"></i>
+            <h3>Instant Updates</h3>
+            <p>Receive government schemes and alerts instantly.</p>
+        </div>
+    </div>
+</div>
+
+<!-- WHAT WE PROVIDE (FEATURES) -->
+<div class="section">
+    <h2>🌿 What We Provide</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa fa-store"></i>
+            <h3>Marketplace</h3>
+            <p>Buy & sell agricultural products easily.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-leaf"></i>
+            <h3>Crop Guidance</h3>
+            <p>AI recommendations for better yield.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-bug"></i>
+            <h3>Disease Detection</h3>
+            <p>Detect crop diseases using smart tools.</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-landmark"></i>
+            <h3>Govt Schemes</h3>
+            <p>Latest subsidy and agriculture updates.</p>
+        </div>
+    </div>
+</div>
+
+<!-- OUR MISSION -->
+<div class="section">
+    <h2>🎯 Our Mission</h2>
+    <div class="info-box">
+        <p>
+            Our mission is to <span class="highlight">digitally empower every farmer</span> in India
+            by providing technology-driven solutions that increase productivity,
+            reduce dependency on middlemen, and improve income.
+        </p>
+        <p>
+            We believe agriculture is the backbone of our nation, and technology
+            should reach every farmer — from small villages to large markets.
+        </p>
+    </div>
+</div>
+
+<!-- CALL TO ACTION -->
+<div class="section">
+    <div class="cta">
+        <h2>🚀 Join Rythu Connect Today</h2>
+        <p>Be part of the future of smart agriculture</p>
+        <a href="{{ url_for('register') }}">Get Started</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-note">
+    <i class="fa-regular fa-copyright"></i> 2025 Rythu Connect — Cultivating innovation for Indian farmers
+</div>
+
+<script>
+    // Smooth interactive demo for better user experience
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Just to show demo feedback — navigation works via url_for anyway
+            console.log('Navigating to:', this.getAttribute('href'));
+        });
+    });
+    
+    // Add a tiny animation effect on cards (just for delight)
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+        });
+    });
+</script>
+
+</body>
+</html>

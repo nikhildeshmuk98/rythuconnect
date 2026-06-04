@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notifications - Rythu Connect</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #fafafa;
+}
+
+/* TOP BAR */
+.topbar {
+    background: white;
+    padding: 12px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+/* CARD */
+.notif {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.notif:hover {
+    background: #f6f6f6;
+}
+
+/* ICON */
+.icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    margin-right: 10px;
+}
+
+.follow { background:#3897f0; }
+.like { background:#ed4956; }
+.comment { background:#f39c12; }
+.post { background:#2ecc71; }
+.market { background:#8e44ad; }
+.scheme { background:#16a085; }
+.admin { background:#e74c3c; }
+.message { background:#34495e; }
+
+/* TEXT */
+.text {
+    flex: 1;
+    font-size: 14px;
+}
+
+.time {
+    font-size: 11px;
+    color: gray;
+    margin-top: 3px;
+}
+
+/* UNREAD DOT */
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background: #3897f0;
+    border-radius: 50%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+    🔔 Notifications
+</div>
+
+<div class="container">
+
+{% for n in notifications %}
+
+<div class="notif">
+
+    <!-- ICON -->
+    <div class="icon
+        {% if n.notification_type == 'follow' %}follow{% endif %}
+        {% if n.notification_type == 'like' %}like{% endif %}
+        {% if n.notification_type == 'comment' %}comment{% endif %}
+        {% if n.notification_type == 'post' %}post{% endif %}
+        {% if n.notification_type == 'market' %}market{% endif %}
+        {% if n.notification_type == 'scheme' %}scheme{% endif %}
+        {% if n.notification_type == 'admin' %}admin{% endif %}
+        {% if n.notification_type == 'message' %}message{% endif %}
+    ">
+
+        {% if n.notification_type == 'follow' %}
+            <i class="fa fa-user-plus"></i>
+        {% elif n.notification_type == 'like' %}
+            <i class="fa fa-heart"></i>
+        {% elif n.notification_type == 'comment' %}
+            <i class="fa fa-comment"></i>
+        {% elif n.notification_type == 'post' %}
+            <i class="fa fa-seedling"></i>
+        {% elif n.notification_type == 'market' %}
+            <i class="fa fa-store"></i>
+        {% elif n.notification_type == 'scheme' %}
+            <i class="fa fa-landmark"></i>
+        {% elif n.notification_type == 'admin' %}
+            <i class="fa fa-bullhorn"></i>
+        {% elif n.notification_type == 'message' %}
+            <i class="fa fa-envelope"></i>
+        {% endif %}
+
+    </div>
+
+    <!-- TEXT -->
+    <div class="text">
+        <div>{{ n.message }}</div>
+        <div class="time">{{ n.created_at }}</div>
+    </div>
+
+    <!-- UNREAD DOT -->
+    {% if n.is_read == 0 %}
+    <div class="unread-dot"></div>
+    {% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

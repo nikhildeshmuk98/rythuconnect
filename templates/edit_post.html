@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Post - Rythu Connect</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+:root{
+
+    --green:#2e7d32;
+    --green-dark:#1b5e20;
+    --green-light:#e8f5e9;
+
+    --white:#ffffff;
+    --black:#1f2937;
+
+    --gray:#6b7280;
+    --border:#d1d5db;
+
+    --shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+}
+
+body{
+    background:#f5f7f2;
+    display:flex;
+    min-height:100vh;
+}
+
+/* =====================================================
+SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    width:280px;
+    background:linear-gradient(
+        180deg,
+        #2e7d32,
+        #1b5e20
+    );
+
+    color:white;
+    padding:30px 20px;
+
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    margin-bottom:40px;
+}
+
+.logo i{
+
+    font-size:34px;
+}
+
+.logo h2{
+
+    font-size:28px;
+    font-weight:700;
+}
+
+.menu{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.menu a{
+
+    text-decoration:none;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:16px 18px;
+
+    border-radius:14px;
+
+    transition:0.3s;
+}
+
+.menu a:hover{
+
+    background:rgba(255,255,255,0.15);
+    transform:translateX(4px);
+}
+
+.menu a.active{
+
+    background:white;
+    color:var(--green);
+    font-weight:600;
+}
+
+/* =====================================================
+MAIN
+===================================================== */
+
+.main{
+
+    margin-left:280px;
+    width:100%;
+    padding:30px;
+}
+
+/* =====================================================
+TOP NAV
+===================================================== */
+
+.topbar{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px 25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:30px;
+}
+
+.topbar h1{
+
+    color:var(--green-dark);
+    font-size:28px;
+}
+
+.profile-box{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.profile-box img{
+
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.profile-letter{
+
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    font-size:22px;
+    font-weight:700;
+}
+
+/* =====================================================
+EDIT CARD
+===================================================== */
+
+.edit-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    box-shadow:var(--shadow);
+}
+
+.section-title{
+
+    font-size:30px;
+    color:var(--green-dark);
+
+    margin-bottom:25px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* =====================================================
+FORM
+===================================================== */
+
+.form-group{
+
+    margin-bottom:25px;
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    font-weight:600;
+    color:var(--black);
+}
+
+textarea{
+
+    width:100%;
+    min-height:180px;
+
+    border:2px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    resize:none;
+
+    font-size:16px;
+
+    transition:0.3s;
+}
+
+textarea:focus{
+
+    outline:none;
+
+    border-color:var(--green);
+}
+
+/* =====================================================
+CURRENT IMAGES
+===================================================== */
+
+.images-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+}
+
+.image-card{
+
+    position:relative;
+}
+
+.image-card img{
+
+    width:100%;
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    border:4px solid var(--green-light);
+}
+
+/* =====================================================
+UPLOAD
+===================================================== */
+
+.upload-box{
+
+    border:2px dashed var(--green);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    text-align:center;
+
+    background:var(--green-light);
+}
+
+.upload-box i{
+
+    font-size:48px;
+    color:var(--green);
+
+    margin-bottom:16px;
+}
+
+.upload-box h3{
+
+    margin-bottom:10px;
+    color:var(--green-dark);
+}
+
+.upload-box p{
+
+    color:var(--gray);
+    margin-bottom:20px;
+}
+
+.upload-btn{
+
+    background:var(--green);
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    display:inline-block;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.upload-btn:hover{
+
+    background:var(--green-dark);
+}
+
+input[type=file]{
+
+    display:none;
+}
+
+/* =====================================================
+CHECKBOX
+===================================================== */
+
+.checkbox{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-top:15px;
+
+    color:#ef4444;
+    font-weight:600;
+}
+
+/* =====================================================
+BUTTONS
+===================================================== */
+
+.buttons{
+
+    display:flex;
+    gap:18px;
+
+    margin-top:35px;
+}
+
+.save-btn{
+
+    background:linear-gradient(
+        135deg,
+        #43a047,
+        #1b5e20
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:16px 30px;
+
+    border-radius:16px;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.save-btn:hover{
+
+    transform:translateY(-3px);
+}
+
+.cancel-btn{
+
+    background:#f3f4f6;
+
+    color:#111827;
+
+    text-decoration:none;
+
+    padding:16px 28px;
+
+    border-radius:16px;
+
+    font-weight:600;
+
+    transition:0.3s;
+}
+
+.cancel-btn:hover{
+
+    background:#e5e7eb;
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media(max-width:900px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+        padding:20px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        gap:20px;
+        align-items:flex-start;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-leaf"></i>
+        <h2>Rythu Connect</h2>
+    </div>
+
+    <div class="menu">
+
+        <a href="/dashboard">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="/marketplace">
+            <i class="fa-solid fa-store"></i>
+            Marketplace
+        </a>
+
+        <a href="/community">
+            <i class="fa-solid fa-users"></i>
+            Community
+        </a>
+
+        <a href="/profile" class="active">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </a>
+
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+MAIN
+===================================================== -->
+
+<div class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <h1>Edit Your Post</h1>
+
+        <div class="profile-box">
+
+            {% if user.profile_image and user.profile_image != 'NULL' %}
+
+            <img src="{{ url_for(
+                'static',
+                filename='uploads/profile_images/' ~ user.profile_image
+            ) }}">
+
+            {% else %}
+
+            <div class="profile-letter">
+                {{ user.username[0] | upper }}
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- EDIT CARD -->
+
+    <div class="edit-card">
+
+        <div class="section-title">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit Community Post
+        </div>
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            <!-- CONTENT -->
+
+            <div class="form-group">
+
+                <label>
+                    Post Content
+                </label>
+
+                <textarea
+                    name="content"
+                    placeholder="Share your farming update...">{{ post.content }}</textarea>
+
+            </div>
+
+            <!-- CURRENT IMAGES -->
+
+            <div class="form-group">
+
+                <label>
+                    Current Images
+                </label>
+
+                <div class="images-grid">
+
+                    {% for img in post_images %}
+
+                    <div class="image-card">
+
+                        <img src="{{ url_for(
+                            'static',
+                            filename='uploads/post_images/' ~ img.image_path
+                        ) }}">
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- DELETE OLD -->
+
+            <label class="checkbox">
+
+                <input type="checkbox"
+                       name="delete_old_images"
+                       value="yes">
+
+                Remove old images permanently
+
+            </label>
+
+            <!-- NEW IMAGE -->
+
+            <div class="form-group"
+                 style="margin-top:30px;">
+
+                <div class="upload-box">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    <h3>
+                        Upload New Images
+                    </h3>
+
+                    <p>
+                        Upload multiple farming images
+                    </p>
+
+                    <label class="upload-btn">
+
+                        Choose Images
+
+                        <input type="file"
+                               name="images"
+                               multiple>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Changes
+
+                </button>
+
+                <a href="/profile"
+                   class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - Rythu Connect</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ═══════════════════════════════════════
+   ROOT VARIABLES & RESET
+═══════════════════════════════════════ */
+
+:root {
+  --green-900: #052e0f;
+  --green-800: #0a5c1e;
+  --green-700: #0f8f2f;
+  --green-600: #12a836;
+  --green-500: #1dc94a;
+  --green-400: #45d167;
+  --green-300: #7de59a;
+  --green-200: #b8f5c8;
+  --green-100: #e3fde9;
+  --green-50:  #f2fff5;
+
+  --gold:      #c8a84b;
+  --gold-light:#f0d98a;
+
+  --white:     #ffffff;
+  --off-white: #f7fef9;
+  --grey-100:  #eef5f0;
+  --grey-200:  #d4e8d9;
+  --grey-400:  #8aab93;
+  --grey-600:  #4a6652;
+  --grey-800:  #1e2e23;
+
+  --shadow-sm:  0 2px 8px rgba(10,92,30,0.07);
+  --shadow-md:  0 8px 32px rgba(10,92,30,0.12);
+  --shadow-lg:  0 20px 60px rgba(10,92,30,0.16);
+  --shadow-xl:  0 40px 100px rgba(10,92,30,0.22);
+
+  --radius-sm:  12px;
+  --radius-md:  20px;
+  --radius-lg:  32px;
+  --radius-xl:  44px;
+
+  --sidebar-w: 290px;
+  --navbar-h:  88px;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--grey-800);
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--green-50); }
+::-webkit-scrollbar-thumb { background: var(--green-400); border-radius: 99px; }
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════ */
+
+.sidebar {
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--green-900);
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 999;
+  transition: var(--transition);
+}
+
+.sidebar.hide { left: calc(-1 * var(--sidebar-w)); }
+
+/* — Decorative top grain texture — */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(69,209,103,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(15,143,47,0.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* — Wheat stalk decorative — */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: 80px;
+  width: 80px;
+  height: 200px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 200'%3E%3Cpath d='M40 200 Q38 150 40 100 Q42 50 40 0' stroke='rgba(69,209,103,0.12)' stroke-width='2' fill='none'/%3E%3Cellipse cx='40' cy='30' rx='12' ry='20' fill='rgba(69,209,103,0.07)' transform='rotate(-25 40 30)'/%3E%3Cellipse cx='40' cy='60' rx='12' ry='20' fill='rgba(69,209,103,0.07)' transform='rotate(25 40 60)'/%3E%3Cellipse cx='40' cy='90' rx='10' ry='18' fill='rgba(69,209,103,0.07)' transform='rotate(-20 40 90)'/%3E%3C/svg%3E") no-repeat center/contain;
+  pointer-events: none;
+}
+
+.sidebar-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px 22px 24px;
+}
+
+/* LOGO */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.logo-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.logo-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--green-600), var(--green-400));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+  box-shadow: 0 8px 24px rgba(69,209,103,0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.logo-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--green-500), var(--green-300));
+  opacity: 0.25;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.06); }
+}
+
+.logo-text h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.3px;
+  line-height: 1;
+}
+
+.logo-text span {
+  font-size: 11px;
+  color: var(--green-300);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(69,209,103,0.25), transparent);
+  margin: 20px 0;
+}
+
+/* MENU LABEL */
+
+.menu-label {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--green-400);
+  font-weight: 600;
+  margin-bottom: 10px;
+  padding-left: 6px;
+}
+
+/* MENU */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu a {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: rgba(255,255,255,0.65);
+  font-weight: 500;
+  font-size: 14.5px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 65%;
+  background: var(--green-400);
+  border-radius: 0 3px 3px 0;
+  transition: var(--transition);
+}
+
+.menu a:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.07);
+}
+
+.menu a:hover::before { transform: translateY(-50%) scaleY(1); }
+
+.menu a.active {
+  color: var(--green-900);
+  background: linear-gradient(135deg, var(--green-400), var(--green-300));
+  box-shadow: 0 6px 20px rgba(69,209,103,0.3);
+  font-weight: 600;
+}
+
+.menu a.active::before { display: none; }
+
+.menu a .menu-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.menu a.active .menu-icon {
+  background: rgba(5,46,15,0.2);
+  color: var(--green-900);
+}
+
+.menu a:hover .menu-icon { background: rgba(255,255,255,0.13); }
+
+.menu-badge {
+  margin-left: auto;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 99px;
+  background: var(--green-600);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+.menu a.active .menu-badge { background: rgba(5,46,15,0.25); }
+
+/* AI CARD */
+
+.ai-card {
+  margin-top: auto;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(69,209,103,0.15), rgba(15,143,47,0.08));
+  border: 1px solid rgba(69,209,103,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-card::before {
+  content: '\f06c';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  font-size: 80px;
+  color: rgba(69,209,103,0.07);
+}
+
+.ai-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--green-600), var(--green-400));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 16px rgba(69,209,103,0.3);
+}
+
+.ai-card h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--white);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.ai-card p {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.ai-card button {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--green-500), var(--green-400));
+  color: var(--green-900);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  letter-spacing: 0.3px;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(69,209,103,0.3);
+}
+
+.ai-card button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(69,209,103,0.4);
+}
+
+/* ═══════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════ */
+
+.main {
+  margin-left: var(--sidebar-w);
+  transition: var(--transition);
+  min-height: 100vh;
+}
+
+.main.full { margin-left: 0; }
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+
+.navbar {
+  height: var(--navbar-h);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 36px;
+  box-shadow: 0 1px 0 rgba(10,92,30,0.08), var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(10,92,30,0.06);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.toggle-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--green-700);
+  transition: var(--transition);
+}
+
+.toggle-btn:hover {
+  background: var(--green-100);
+  color: var(--green-800);
+  transform: scale(1.05);
+}
+
+.search-box {
+  width: 380px;
+  height: 52px;
+  background: var(--green-50);
+  border: 1.5px solid var(--green-100);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 12px;
+  transition: var(--transition);
+}
+
+.search-box:focus-within {
+  border-color: var(--green-400);
+  box-shadow: 0 0 0 4px rgba(69,209,103,0.12);
+  background: white;
+}
+
+.search-box i { color: var(--green-600); font-size: 16px; }
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14.5px;
+  font-family: var(--font-body);
+  color: var(--grey-800);
+}
+
+.search-box input::placeholder { color: var(--grey-400); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  background: var(--green-50);
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  color: var(--green-700);
+  font-size: 17px;
+  transition: var(--transition);
+}
+
+.icon-box:hover {
+  background: var(--green-100);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.notification {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  background: #e53935;
+  border-radius: 99px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: white;
+  font-weight: 700;
+  border: 2px solid white;
+}
+
+.profile-menu-wrapper { position: relative; }
+
+.profile-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--green-400);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 0 0 3px rgba(69,209,103,0.15);
+}
+
+.profile-letter {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2.5px solid var(--green-400);
+  box-shadow: 0 0 0 3px rgba(69,209,103,0.15), var(--shadow-sm);
+  transition: var(--transition);
+  font-family: var(--font-display);
+}
+
+.profile-img:hover,
+.profile-letter:hover { transform: scale(1.06); }
+
+.profile-menu {
+  width: 240px;
+  background: white;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 14px);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  display: none;
+  border: 1px solid var(--green-100);
+  animation: dropdown-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.profile-menu.active { display: block; }
+
+.profile-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--green-100);
+}
+
+.pm-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.pm-info h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-800);
+}
+
+.pm-info span {
+  font-size: 12px;
+  color: var(--grey-400);
+}
+
+.profile-menu a {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--grey-600);
+  font-size: 14px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.profile-menu a:hover {
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.profile-menu a i {
+  width: 20px;
+  text-align: center;
+  color: var(--green-600);
+}
+
+/* ═══════════════════════════════════════
+   PAGE
+═══════════════════════════════════════ */
+
+.page {
+  padding: 32px 36px 48px;
+}
+
+/* ═══════════════════════════════════════
+   PROFILE HERO
+═══════════════════════════════════════ */
+
+.profile-hero {
+  background: white;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 30px;
+  border: 1px solid rgba(10,92,30,0.07);
+}
+
+/* BANNER */
+
+.banner {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.banner:hover .banner-img { transform: scale(1.02); }
+
+/* Gradient overlay */
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(5,46,15,0.55) 100%
+  );
+  pointer-events: none;
+}
+
+/* Decorative corner badge */
+.banner-corner-badge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 99px;
+  padding: 6px 16px 6px 10px;
+  color: white;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.banner-corner-badge i { font-size: 14px; color: var(--green-300); }
+
+.edit-cover-btn {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  z-index: 10;
+  height: 46px;
+  padding: 0 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--green-700);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+.edit-cover-btn:hover {
+  background: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* PROFILE CONTENT */
+
+.profile-content {
+  padding: 0 36px 36px;
+  position: relative;
+}
+
+.profile-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: -76px;
+  position: relative;
+  z-index: 5;
+}
+
+.profile-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.avatar-wrap {
+  position: relative;
+}
+
+.big-profile,
+.big-letter {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 5px solid white;
+  object-fit: cover;
+  background: white;
+  box-shadow: var(--shadow-lg);
+  display: block;
+}
+
+.big-letter {
+  background: linear-gradient(135deg, var(--green-800), var(--green-600));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 58px;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.verified-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--green-600), var(--green-400));
+  border-radius: 50%;
+  border: 3px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-details {
+  padding-bottom: 6px;
+}
+
+.user-details h1 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--green-800);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.user-profession {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  color: var(--green-700);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 99px;
+  margin-bottom: 8px;
+}
+
+.user-profession i { font-size: 12px; }
+
+.user-bio {
+  color: var(--grey-600);
+  font-size: 14.5px;
+  line-height: 1.65;
+  max-width: 420px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edit-btn {
+  height: 52px;
+  padding: 0 28px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  color: white;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: var(--transition);
+  box-shadow: 0 8px 24px rgba(15,143,47,0.35);
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(15,143,47,0.45);
+}
+
+.share-btn {
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid var(--green-200);
+  background: white;
+  border-radius: var(--radius-md);
+  color: var(--green-700);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.share-btn:hover {
+  background: var(--green-50);
+  border-color: var(--green-400);
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════
+   STATS STRIP
+═══════════════════════════════════════ */
+
+.stats-strip {
+  display: flex;
+  gap: 1px;
+  margin-top: 28px;
+  background: var(--green-100);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--green-100);
+}
+
+.stat-item {
+  flex: 1;
+  padding: 22px 16px;
+  background: var(--green-50);
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-300));
+  border-radius: 3px 3px 0 0;
+  transition: var(--transition);
+}
+
+.stat-item:hover { background: white; }
+.stat-item:hover::after { transform: translateX(-50%) scaleX(1); }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--green-700);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-400);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ═══════════════════════════════════════
+   TABS
+═══════════════════════════════════════ */
+
+.tabs-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  height: 52px;
+  padding: 0 26px;
+  border: 1.5px solid var(--green-100);
+  border-radius: var(--radius-md);
+  background: white;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  font-family: var(--font-body);
+  color: var(--grey-600);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn i { font-size: 15px; }
+
+.tab-btn:hover {
+  border-color: var(--green-300);
+  color: var(--green-700);
+  background: var(--green-50);
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(15,143,47,0.3);
+}
+
+/* ═══════════════════════════════════════
+   TAB CONTENT
+═══════════════════════════════════════ */
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fade-up 0.35s ease; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   INFO GRID
+═══════════════════════════════════════ */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* ═══════════════════════════════════════
+   CARD
+═══════════════════════════════════════ */
+
+.card {
+  background: white;
+  padding: 28px 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(10,92,30,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top accent line */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-300), transparent);
+  border-radius: 0 0 3px 3px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-title-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(15,143,47,0.25);
+}
+
+.card-header h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-800);
+}
+
+.small-edit-btn {
+  height: 40px;
+  padding: 0 18px;
+  border: 1.5px solid var(--green-200);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--green-700);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: var(--transition);
+}
+
+.small-edit-btn:hover {
+  background: var(--green-50);
+  border-color: var(--green-400);
+  transform: translateY(-1px);
+}
+
+/* INFO ITEMS */
+
+.info-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--green-50);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-item:last-child { border: none; padding-bottom: 0; }
+
+.info-item h4 {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--grey-400);
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-item h4 i {
+  font-size: 11px;
+  color: var(--green-500);
+}
+
+.info-item p {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--grey-800);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   POSTS GRID
+═══════════════════════════════════════ */
+
+.posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* POST CARD */
+
+.post-card {
+  background: white;
+  padding: 28px 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(10,92,30,0.06);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-300));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition);
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+.post-card:hover::before { transform: scaleX(1); }
+
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.post-user {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.post-user img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--green-200);
+}
+
+.post-user-letter {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.post-user-info h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--green-800);
+  margin-bottom: 4px;
+}
+
+.post-user-info p {
+  font-size: 12.5px;
+  color: var(--grey-400);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.post-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.post-btn {
+  height: 42px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: var(--transition);
+}
+
+.edit-post {
+  background: var(--green-50);
+  color: var(--green-700);
+  border: 1.5px solid var(--green-200);
+}
+
+.edit-post:hover {
+  background: var(--green-100);
+  border-color: var(--green-400);
+  transform: translateY(-1px);
+}
+
+.delete-post {
+  background: #fff5f5;
+  color: #e53935;
+  border: 1.5px solid #ffd0d0;
+}
+
+.delete-post:hover {
+  background: #ffe8e8;
+  transform: translateY(-1px);
+}
+
+.post-content {
+  line-height: 1.75;
+  color: var(--grey-600);
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+/*post image chatgpt*/
+/* =========================================
+   POST IMAGES GRID
+========================================= */
+
+.post-images{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.post-images.single{
+  grid-template-columns:1fr;
+}
+
+.post-images img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+  border-radius:var(--radius-md);
+  cursor:pointer;
+  transition:var(--transition);
+  box-shadow:var(--shadow-sm);
+}
+
+.post-images img:hover{
+  transform:scale(1.02);
+  box-shadow:var(--shadow-lg);
+}
+
+/* 3 images */
+.post-images img:nth-child(3):last-child{
+  grid-column:span 2;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .post-images{
+    grid-template-columns:1fr;
+  }
+
+  .post-images img{
+    height:240px;
+  }
+
+}
+
+/*post image*/
+.post-image {
+  width: 100%;
+  height: 400px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.post-bottom {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--green-50);
+}
+
+.reaction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--grey-600);
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.reaction:hover {
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.reaction i {
+  color: var(--green-500);
+  font-size: 15px;
+}
+
+.post-link { text-decoration: none; }
+
+/* ═══════════════════════════════════════
+   DEMO POST SAMPLE
+═══════════════════════════════════════ */
+
+.demo-empty {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--grey-400);
+}
+
+.demo-empty i {
+  font-size: 52px;
+  color: var(--green-200);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.demo-empty h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--green-700);
+  margin-bottom: 8px;
+}
+
+.demo-empty p { font-size: 14.5px; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+  .info-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 950px) {
+  .sidebar { left: calc(-1 * var(--sidebar-w)); }
+  .sidebar.show { left: 0; }
+  .main { margin-left: 0; }
+  .search-box { display: none; }
+}
+
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .profile-content { padding: 0 18px 24px; }
+  .profile-main { margin-top: -52px; }
+  .big-profile, .big-letter { width: 110px; height: 110px; }
+  .big-letter { font-size: 42px; }
+  .user-details h1 { font-size: 26px; }
+  .banner { height: 220px; }
+  .post-image { height: 240px; }
+  .stats-strip { flex-wrap: wrap; }
+  .stat-item { min-width: 30%; }
+}
+
+/* ═══════════════════════════════════════
+   LOADING ANIMATION FOR NUMBERS
+═══════════════════════════════════════ */
+
+.count-up {
+  display: inline-block;
+  animation: count-fade 0.6s ease;
+}
+
+@keyframes count-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   PAGE ENTER ANIMATION
+═══════════════════════════════════════ */
+
+.profile-hero { animation: hero-in 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tabs-wrap { animation: hero-in 0.5s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.tab-content { animation: hero-in 0.4s 0.14s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ═══════════════════════════════════════
+   SIDEBAR OVERLAY (mobile)
+═══════════════════════════════════════ */
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,46,15,0.45);
+  z-index: 998;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.sidebar-overlay.show { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════ SIDEBAR OVERLAY (mobile) ═══════ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ═══════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════ -->
+
+<div class="sidebar" id="sidebar">
+<div class="sidebar-inner">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <div class="logo-wrap">
+      <div class="logo-glow"></div>
+      <div class="logo-circle">
+        <i class="fa-solid fa-seedling"></i>
+      </div>
+    </div>
+    <div class="logo-text">
+      <h1>Rythu Connect</h1>
+      <span>Farmer Platform</span>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="menu-label">Main Menu</div>
+
+  <nav class="menu">
+
+    <a href="/rythu_dashboard">
+      <div class="menu-icon"><i class="fa-solid fa-house"></i></div>
+      Home
+    </a>
+
+    <a href="/marketplace">
+      <div class="menu-icon"><i class="fa-solid fa-store"></i></div>
+      Marketplace
+    </a>
+
+    <a href="/ai_assistant">
+      <div class="menu-icon"><i class="fa-solid fa-robot"></i></div>
+      AI Assistant
+    </a>
+
+    <a href="/weather_forecast">
+      <div class="menu-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+      Weather
+    </a>
+
+    <a href="/jobs">
+      <div class="menu-icon"><i class="fa-solid fa-briefcase"></i></div>
+      Jobs
+    </a>
+
+    <a href="/govt_schemes">
+      <div class="menu-icon"><i class="fa-solid fa-building-columns"></i></div>
+      Govt Schemes
+    </a>
+
+    <a href="/community">
+      <div class="menu-icon"><i class="fa-solid fa-users"></i></div>
+      Community
+      <span class="menu-badge">3</span>
+    </a>
+
+    <a href="/analytics">
+      <div class="menu-icon"><i class="fa-solid fa-chart-line"></i></div>
+      Analytics
+    </a>
+
+    <a href="/profile" class="active">
+      <div class="menu-icon"><i class="fa-solid fa-user"></i></div>
+      Profile
+    </a>
+
+    <a href="/settings">
+      <div class="menu-icon"><i class="fa-solid fa-gear"></i></div>
+      Settings
+    </a>
+
+  </nav>
+
+  <!-- AI CARD -->
+  <div class="ai-card">
+    <div class="ai-card-icon">
+      <i class="fa-solid fa-leaf"></i>
+    </div>
+    <h2>Farmer Identity</h2>
+    <p>Showcase your farming journey, experience and achievements to the community.</p>
+    <button>
+      <i class="fa-solid fa-chart-pie"></i>
+      &nbsp;View Insights
+    </button>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+
+<div class="main" id="main">
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+
+    <div class="nav-left">
+
+      <div class="toggle-btn" id="toggleBtn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search profile, crops, posts...">
+      </div>
+
+    </div>
+
+    <div class="nav-right">
+
+      <div class="icon-box">
+        <i class="fa-solid fa-bell"></i>
+        <div class="notification">4</div>
+      </div>
+
+      <div class="icon-box">
+        <i class="fa-solid fa-envelope"></i>
+      </div>
+
+      <div class="profile-menu-wrapper">
+
+        {% if user.profile_image and user.profile_image != 'NULL' %}
+          <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}"
+               class="profile-img" id="profileBtn">
+        {% else %}
+          <div class="profile-letter" id="profileBtn">
+            {{ user.username[0] | upper }}
+          </div>
+        {% endif %}
+
+        <div class="profile-menu" id="profileMenu">
+
+          <div class="profile-menu-head">
+            <div class="pm-avatar">{{ user.username[0] | upper }}</div>
+            <div class="pm-info">
+              <h3>{{ user.username }}</h3>
+              <span>{{ user.profession }}</span>
+            </div>
+          </div>
+
+          <a href="/profile">
+            <i class="fa-solid fa-user"></i>
+            My Profile
+          </a>
+          <a href="/settings">
+            <i class="fa-solid fa-gear"></i>
+            Settings
+          </a>
+          <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ═══════ PAGE ═══════ -->
+  <div class="page">
+
+    <!-- PROFILE HERO -->
+    <div class="profile-hero">
+
+      <!-- BANNER -->
+      <div class="banner">
+
+        <div class="banner-corner-badge">
+          <i class="fa-solid fa-circle-check"></i>
+          Verified Farmer
+        </div>
+
+       {% if user.banner_image and user.banner_image != 'NULL' %}
+  <img class="banner-img"
+       src="{{ url_for('static', filename='uploads/banners/' ~ user.banner_image) }}"
+       alt="Banner"
+       onerror="this.src='{{ url_for('static', filename='uploads/banners/default_banner.jpg') }}'">
+{% else %}
+          <img class="banner-img"
+               src="{{ url_for('static', filename='uploads/banners/default_banner.jpg') }}"
+               alt="Banner">
+        {% endif %}
+
+        <button class="edit-cover-btn" onclick="window.location.href='/edit_profile'">
+          <i class="fa-solid fa-camera"></i>
+          Edit Banner
+        </button>
+
+      </div>
+
+      <!-- PROFILE CONTENT -->
+      <div class="profile-content">
+
+        <div class="profile-main">
+
+          <div class="profile-left">
+
+            <div class="avatar-wrap">
+
+              {% if user.profile_image and user.profile_image != 'NULL' %}
+                <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}"
+                     class="big-profile">
+              {% else %}
+                <div class="big-letter">{{ user.username[0] | upper }}</div>
+              {% endif %}
+
+              <div class="verified-badge">
+                <i class="fa-solid fa-check"></i>
+              </div>
+
+            </div>
+
+            <div class="user-details">
+              <h1>{{ user.username }}</h1>
+              <div class="user-profession">
+                <i class="fa-solid fa-tractor"></i>
+                {{ user.profession }}
+              </div>
+              <p class="user-bio">{{ user.bio }}</p>
+            </div>
+
+          </div>
+
+          <div class="profile-actions">
+            <a href="{{ url_for('edit_profile') }}" class="edit-btn">
+              <i class="fa-solid fa-pen"></i>
+              Edit Profile
+            </a>
+            <button class="share-btn" title="Share Profile">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- STATS STRIP -->
+        <div class="stats-strip">
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ followers }}</div>
+            <div class="stat-label">Followers</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ following }}</div>
+            <div class="stat-label">Following</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ total_posts }}</div>
+            <div class="stat-label">Posts</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ total_likes }}</div>
+            <div class="stat-label">Likes</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ total_comments }}</div>
+            <div class="stat-label">Comments</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-num count-up">{{ total_shares }}</div>
+            <div class="stat-label">Shares</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-wrap">
+
+      <button class="tab-btn active" onclick="showTab(event,'about')">
+        <i class="fa-solid fa-circle-info"></i>
+        About
+      </button>
+
+      <button class="tab-btn" onclick="showTab(event,'posts')">
+        <i class="fa-solid fa-newspaper"></i>
+        Posts
+      </button>
+<button class="tab-btn" onclick="showTab(event,'items')">
+  <i class="fa-solid fa-store"></i>
+  Items
+</button>
+    </div>
+
+    <!-- ══════ ABOUT ══════ -->
+    <div class="tab-content active" id="about">
+
+      <div class="info-grid">
+
+        <!-- BASIC INFO -->
+        <div class="card">
+
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title-icon">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <h2>Basic Information</h2>
+            </div>
+            <a href="{{ url_for('edit_profile') }}">
+              <button class="small-edit-btn">
+                <i class="fa-solid fa-pen"></i>
+                Edit
+              </button>
+            </a>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-id-card"></i> Full Name</h4>
+            <p>{{ user.full_name }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-at"></i> Username</h4>
+            <p>{{ user.username }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-envelope"></i> Email</h4>
+            <p>{{ user.email }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-mobile-screen"></i> Mobile Number</h4>
+            <p>{{ user.mobile }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-briefcase"></i> Profession</h4>
+            <p>{{ user.profession }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-location-dot"></i> Location</h4>
+            <p>{{ user.village }}, {{ user.mandal }}, {{ user.district }}, {{ user.state }}, {{ user.country }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-map-pin"></i> Pincode</h4>
+            <p>{{ user.pincode }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-star"></i> Skills / Crops / Interests</h4>
+            <p>{{ user.skills }}</p>
+          </div>
+
+        </div>
+
+        <!-- FARMING DETAILS -->
+        <div class="card">
+
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title-icon">
+                <i class="fa-solid fa-tractor"></i>
+              </div>
+              <h2>Farming Details</h2>
+            </div>
+            <a href="{{ url_for('edit_profile') }}">
+              <button class="small-edit-btn">
+                <i class="fa-solid fa-pen"></i>
+                Edit
+              </button>
+            </a>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-ruler-combined"></i> Land Area</h4>
+            <p>{{ user.land_area }} Acres</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-clock"></i> Farming Experience</h4>
+            <p>{{ user.farming_experience }} Years</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-droplet"></i> Irrigation Type</h4>
+            <p>{{ user.irrigation_type }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-wheat-awn"></i> Main Crops</h4>
+            <p>{{ user.main_crops }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-leaf"></i> Farming Type</h4>
+            <p>{{ user.farming_type }}</p>
+          </div>
+
+          <div class="info-item">
+            <h4><i class="fa-solid fa-quote-left"></i> Bio</h4>
+            <p>{{ user.bio }}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ══════ POSTS ══════ -->
+    <div class="tab-content" id="posts">
+
+      <div class="posts-grid">
+
+        {% for post in posts %}
+
+        <div class="post-card">
+
+          <div class="post-top">
+
+            <div class="post-user">
+
+              {% if user.profile_image and user.profile_image != 'NULL' %}
+                <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}">
+              {% else %}
+                <div class="post-user-letter">
+                  {{ user.username[0] | upper }}
+                </div>
+              {% endif %}
+
+              <div class="post-user-info">
+                <h3>{{ user.username }}</h3>
+                <p>
+                  <i class="fa-regular fa-clock"></i>
+                  {{ post.created_at }}
+                </p>
+              </div>
+
+            </div>
+
+            <div class="post-actions">
+
+              <a href="{{ url_for('edit_post', post_id=post.id) }}" class="post-link">
+                <button class="post-btn edit-post">
+                  <i class="fa-solid fa-pen"></i>
+                  Edit
+                </button>
+              </a>
+
+              <a href="{{ url_for('delete_post', post_id=post.id) }}"
+                 class="post-link"
+                 onclick="return confirm('Are you sure you want to delete this post?')">
+                <button class="post-btn delete-post">
+                  <i class="fa-solid fa-trash"></i>
+                  Delete
+                </button>
+              </a>
+
+            </div>
+
+          </div>
+
+          <div class="post-content">{{ post.content }}</div>
+
+          <!-- POST IMAGES -->
+        {% if post.images and post.images | length > 0 %}
+        <div class="post-images {% if post.images | length == 1 %}single{% endif %}">
+          {% for img in post.images %}
+            {% if img.image_path %}
+            <img src="{{ url_for('static', filename='uploads/post_images/' ~ img.image_path) }}"
+                 alt="Post Image" loading="lazy"
+                 onclick="openImageModal(this.src)"
+                 onerror="this.style.display='none';">
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+          <!-- POST VIDEO -->
+        {% if post.video %}
+        <div class="post-video">
+          <video controls style="border-radius:var(--r-lg);width:100%;">
+            <source src="{{ url_for('static', filename='uploads/post_videos/' ~ post.video) }}" type="video/mp4">
+          </video>
+        </div>
+        {% endif %}
+          <div class="post-bottom">
+
+            <div class="reaction">
+              <i class="fa-solid fa-heart"></i>
+              {{ post.likes or 0 }} Likes
+            </div>
+
+            <div class="reaction">
+              <i class="fa-solid fa-comment"></i>
+              {{ post.comments or 0 }} Comments
+            </div>
+
+            <div class="reaction">
+              <i class="fa-solid fa-share"></i>
+              {{ post.shares or 0 }} Shares
+            </div>
+
+            <div class="reaction">
+              <i class="fa-solid fa-bookmark"></i>
+              {{ post.saves or 0 }} Saves
+            </div>
+
+          </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="demo-empty">
+          <i class="fa-solid fa-seedling"></i>
+          <h3>No posts yet</h3>
+          <p>Share your farming journey with the community!</p>
+        </div>
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+<!-- ══════ ITEMS ══════ -->
+<div class="tab-content" id="items">
+
+  <div class="posts-grid">
+
+    {% for item in marketplace_items %}
+
+    <div class="post-card">
+
+
+<div class="post-top">
+
+  <div class="post-user">
+
+    {% if user.profile_image and user.profile_image != 'NULL' %}
+      <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}">
+    {% else %}
+      <div class="post-user-letter">
+        {{ user.username[0] | upper }}
+      </div>
+    {% endif %}
+
+    <div class="post-user-info">
+      <h3>{{ user.username }}</h3>
+      <p>
+        <i class="fa-solid fa-store"></i>
+        Marketplace Item
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ACTION BUTTONS -->
+
+  <div class="post-actions">
+
+    <!-- EDIT -->
+
+    <a href="{{ url_for('edit_item', item_id=item.id) }}"
+       class="post-link">
+
+      <button class="post-btn edit-post">
+
+        <i class="fa-solid fa-pen"></i>
+        Edit
+
+      </button>
+
+    </a>
+
+    <!-- DELETE -->
+
+    <a href="{{ url_for('delete_item', item_id=item.id) }}"
+       class="post-link"
+       onclick="return confirm('Delete this item permanently?')">
+
+      <button class="post-btn delete-post">
+
+        <i class="fa-solid fa-trash"></i>
+        Delete
+
+      </button>
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+      <!-- ITEM IMAGE -->
+      {% if item.image %}
+      <img class="post-image"
+           src="{{ url_for('static', filename='uploads/marketplace/' ~ item.image) }}"
+           alt="Item Image"
+           onerror="this.style.display='none';">
+      {% endif %}
+
+      <!-- ITEM DETAILS -->
+
+      <div class="post-content">
+
+        <h2 style="margin-bottom:10px;color:var(--green-700);">
+          {{ item.title }}
+        </h2>
+
+        <p style="margin-bottom:14px;">
+          {{ item.description }}
+        </p>
+
+        <div style="
+          display:flex;
+          flex-wrap:wrap;
+          gap:12px;
+          margin-top:10px;
+        ">
+
+          <div class="reaction">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            ₹ {{ item.price }}
+          </div>
+
+          {% if item.category %}
+          <div class="reaction">
+            <i class="fa-solid fa-tag"></i>
+            {{ item.category }}
+          </div>
+          {% endif %}
+
+          {% if item.location %}
+          <div class="reaction">
+            <i class="fa-solid fa-location-dot"></i>
+            {{ item.location }}
+          </div>
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="demo-empty">
+      <i class="fa-solid fa-store"></i>
+      <h3>No marketplace items</h3>
+      <p>User has not added any items for sale.</p>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+
+<script>
+
+/* ── SIDEBAR TOGGLE ── */
+
+const sidebar        = document.getElementById('sidebar');
+const main           = document.getElementById('main');
+const toggleBtn      = document.getElementById('toggleBtn');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+toggleBtn.addEventListener('click', () => {
+  if (window.innerWidth < 950) {
+    sidebar.classList.toggle('show');
+    sidebarOverlay.classList.toggle('show');
+  } else {
+    sidebar.classList.toggle('hide');
+    main.classList.toggle('full');
+  }
+});
+
+sidebarOverlay.addEventListener('click', () => {
+  sidebar.classList.remove('show');
+  sidebarOverlay.classList.remove('show');
+});
+
+/* ── PROFILE DROPDOWN ── */
+
+const profileBtn  = document.getElementById('profileBtn');
+const profileMenu = document.getElementById('profileMenu');
+
+profileBtn.addEventListener('click', () => {
+  profileMenu.classList.toggle('active');
+});
+
+window.addEventListener('click', (e) => {
+  if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+    profileMenu.classList.remove('active');
+  }
+});
+
+/* ── TABS ── */
+
+function showTab(event, tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ── STAT COUNT-UP ANIMATION ── */
+
+function animateCount(el) {
+  const target = parseInt(el.textContent) || 0;
+  if (isNaN(target) || target === 0) return;
+  const duration = 1000;
+  const step     = target / (duration / 16);
+  let   current  = 0;
+
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      el.textContent = target;
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.floor(current);
+    }
+  }, 16);
+}
+
+/* Run count-up on page load */
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.stat-num').forEach(el => animateCount(el));
+});
+
+/* ── SMOOTH RESIZE HANDLER ── */
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 950) {
+    sidebar.classList.remove('show');
+    sidebarOverlay.classList.remove('show');
+  }
+});
+
+</script>
+
+</body>
+</html>

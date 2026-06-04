@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Rythu Connect · Farmer Network</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================================================
+   ROOT COLORS
+========================================================= */
+
+:root{
+
+    --green-primary:#0f6324;
+    --green-soft:#1b8f3a;
+    --green-light:#e5f6ea;
+    --green-deep:#084c1a;
+
+    --white:#ffffff;
+
+    --gray-bg:#f6faf7;
+    --gray-card:#ffffff;
+
+    --text-dark:#1e2a1f;
+    --text-muted:#5a6e5c;
+
+    --border-soft:#ddebe1;
+
+    --shadow-sm:0 8px 20px rgba(0,32,0,0.04);
+    --shadow-md:0 12px 28px rgba(0,32,0,0.08);
+
+    --transition:all 0.25s ease;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--gray-bg);
+    color:var(--text-dark);
+    display:flex;
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    width:280px;
+
+    background:linear-gradient(
+        145deg,
+        #0a2c14 0%,
+        #0a3418 100%
+    );
+
+    color:#f0f7ec;
+
+    height:100vh;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    transition:width 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+
+    z-index:1100;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    box-shadow:4px 0 18px rgba(0,0,0,0.08);
+
+    scrollbar-width:thin;
+}
+
+.sidebar.collapsed{
+    width:85px;
+}
+
+/* HIDE TEXT WHEN COLLAPSED */
+
+.sidebar.collapsed .logo-title,
+.sidebar.collapsed .logo-sub,
+.sidebar.collapsed .user-mini-info,
+.sidebar.collapsed .menu-item span,
+.sidebar.collapsed .menu-label,
+.sidebar.collapsed .ai-box p,
+.sidebar.collapsed .ai-box h3,
+.sidebar.collapsed .ai-box-btn span{
+    display:none;
+}
+
+.sidebar.collapsed .menu-item{
+    justify-content:center;
+    padding:12px 0;
+}
+
+.sidebar.collapsed .menu-item i{
+    margin-right:0;
+    font-size:1.4rem;
+}
+
+.sidebar.collapsed .user-mini{
+    justify-content:center;
+    padding:12px 0;
+}
+
+.sidebar.collapsed .sidebar-footer .ai-box{
+    padding:12px 6px;
+    text-align:center;
+}
+
+/* =========================================================
+   SIDEBAR TOP
+========================================================= */
+
+.sidebar-top{
+
+    padding:24px 20px 18px 20px;
+
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:28px;
+}
+
+.logo-icon{
+
+    background:var(--green-soft);
+
+    width:42px;
+    height:42px;
+
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+
+    box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.logo-title{
+    font-weight:700;
+    font-size:1.35rem;
+    letter-spacing:-0.3px;
+}
+
+.logo-sub{
+    font-size:0.7rem;
+    opacity:0.7;
+}
+
+/* =========================================================
+   USER MINI
+========================================================= */
+
+.user-mini{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:rgba(255,255,255,0.06);
+
+    border-radius:56px;
+
+    padding:8px 12px;
+
+    backdrop-filter:blur(2px);
+}
+
+.user-mini-ava{
+
+    width:44px;
+    height:44px;
+
+    background:var(--green-light);
+
+    color:var(--green-deep);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+    font-size:1.2rem;
+
+    overflow:hidden;
+}
+
+.user-mini-ava img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.user-mini-name{
+    font-weight:600;
+    font-size:0.9rem;
+}
+
+.user-mini-role{
+    font-size:0.7rem;
+    opacity:0.75;
+}
+
+/* =========================================================
+   SIDEBAR BODY
+========================================================= */
+
+.sidebar-body{
+    padding:20px 16px;
+}
+
+.menu-section{
+    margin-bottom:28px;
+}
+
+.menu-label{
+
+    font-size:0.7rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    color:#bcddbf;
+
+    margin-bottom:12px;
+
+    padding-left:8px;
+}
+
+/* MENU ITEM */
+
+.menu-item{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:10px 14px;
+
+    border-radius:14px;
+
+    color:#e2f0e4;
+
+    text-decoration:none;
+
+    font-weight:500;
+    font-size:0.9rem;
+
+    transition:var(--transition);
+
+    margin-bottom:4px;
+}
+
+.menu-item i{
+    width:24px;
+    font-size:1.2rem;
+}
+
+.menu-item:hover,
+.menu-item.active{
+
+    background:rgba(27,143,58,0.5);
+
+    color:white;
+}
+
+.menu-badge{
+
+    background:#ffb347;
+
+    font-size:0.65rem;
+
+    padding:2px 8px;
+
+    border-radius:30px;
+
+    margin-left:auto;
+
+    color:#1e2a1f;
+}
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.sidebar-footer{
+
+    padding:20px 16px;
+
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.ai-box{
+
+    background:rgba(255,255,240,0.08);
+
+    border-radius:20px;
+
+    padding:16px;
+
+    text-align:left;
+}
+
+.ai-box h3{
+    font-size:1rem;
+    margin-bottom:6px;
+}
+
+.ai-box p{
+
+    font-size:0.75rem;
+
+    line-height:1.4;
+
+    margin-bottom:12px;
+
+    opacity:0.8;
+}
+
+.ai-box-btn{
+
+    background:var(--green-soft);
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:40px;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    width:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+    flex:1;
+    margin-left:280px;
+    transition:margin-left 0.3s ease;
+    min-height:100vh;
+}
+
+.sidebar.collapsed ~ .main{
+    margin-left:85px;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+
+    background:var(--white);
+
+    padding:12px 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid var(--border-soft);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    backdrop-filter:blur(8px);
+
+    background:rgba(255,255,255,0.96);
+}
+
+.nav-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.toggle-btn{
+
+    background:#eef5f0;
+
+    width:40px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+/* SEARCH */
+
+.search-bar{
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+
+    background:var(--gray-bg);
+
+    padding:8px 16px;
+
+    border-radius:48px;
+
+    gap:8px;
+
+    width:280px;
+
+    border:1px solid var(--border-soft);
+}
+
+.search-bar input{
+
+    border:none;
+
+    background:transparent;
+
+    outline:none;
+
+    font-size:0.85rem;
+
+    width:100%;
+}
+
+/* NAV RIGHT */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.nav-ai-btn,
+.icon-btn{
+
+    background:#ecf9ef;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:40px;
+
+    font-weight:500;
+
+    display:flex;
+    gap:8px;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+/* PROFILE AVATAR */
+
+.profile-wrap{
+    position:relative;
+}
+
+.profile-avatar{
+
+    width:44px;
+    height:44px;
+
+    background:var(--green-light);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    overflow:hidden;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(320px,1fr));
+
+    gap:28px;
+
+    padding:28px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:var(--gray-card);
+
+    border-radius:32px;
+
+    overflow:visible;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:all 0.3s cubic-bezier(0.2,0,0,1);
+
+    border:1px solid var(--border-soft);
+
+    display:flex;
+    flex-direction:column;
+
+    position:relative;
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--shadow-md);
+
+    border-color:#c8e0cf;
+}
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.banner{
+
+    height:180px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:32px 32px 0 0;
+
+    background:linear-gradient(
+        135deg,
+        #cde5d4 0%,
+        #b0d3bc 100%
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.banner img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transition:transform 0.4s ease;
+}
+
+.card:hover .banner img{
+    transform:scale(1.02);
+}
+
+/* DEFAULT LOGO */
+
+.banner-default-logo{
+
+    width:64px;
+    height:64px;
+
+    background:rgba(255,255,255,0.9);
+
+    border-radius:32px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:36px;
+
+    color:#0f6324;
+
+    box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   PROFILE IMAGE FIXED PERFECT
+========================================================= */
+
+.avatar{
+
+    width:100px;
+    height:100px;
+
+    border-radius:50%;
+
+    border:5px solid white;
+
+    margin-top:-50px;
+    margin-left:24px;
+
+    background:#ffffff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:700;
+    font-size:34px;
+
+    color:#1b5e2a;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+
+    position:relative;
+
+    z-index:10;
+}
+
+/* IMAGE INSIDE AVATAR */
+
+.avatar img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:50%;
+}
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.card-body{
+
+    padding:20px 22px 24px;
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+}
+
+/* NAME */
+
+.name{
+
+    font-weight:700;
+
+    font-size:1.3rem;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-bottom:6px;
+}
+
+/* BADGE */
+
+.badge{
+
+    background:var(--green-light);
+
+    color:var(--green-deep);
+
+    padding:5px 14px;
+
+    border-radius:60px;
+
+    font-size:0.7rem;
+
+    font-weight:600;
+
+    letter-spacing:-0.2px;
+}
+
+/* BIO */
+
+.bio{
+
+    font-size:0.85rem;
+
+    color:var(--text-muted);
+
+    margin:12px 0;
+
+    line-height:1.4;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:2;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+}
+
+/* INFO */
+
+.info{
+
+    font-size:0.8rem;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    margin-bottom:8px;
+
+    color:#4c6a4f;
+
+    background:#f5faf6;
+
+    padding:6px 12px;
+
+    border-radius:40px;
+
+    width:fit-content;
+}
+
+.info i{
+    width:18px;
+    font-size:0.85rem;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.actions{
+
+    display:flex;
+
+    gap:14px;
+
+    margin-top:20px;
+}
+
+.btn{
+
+    flex:1;
+
+    padding:11px 0;
+
+    border-radius:60px;
+
+    border:none;
+
+    font-weight:600;
+
+    font-size:0.85rem;
+
+    cursor:pointer;
+
+    transition:0.2s;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+/* FOLLOW */
+
+.btn-follow{
+
+    background:var(--green-soft);
+
+    color:white;
+
+    box-shadow:0 2px 6px rgba(27,143,58,0.2);
+}
+
+.btn-following{
+
+    background:#e2f0e4;
+
+    color:#0f6324;
+
+    border:1px solid #bbdfc4;
+}
+
+/* VIEW */
+
+.btn-view{
+
+    background:#f1f4f0;
+
+    color:#2b4b2d;
+
+    border:1px solid #e0ebe2;
+}
+
+.btn-follow:hover,
+.btn-view:hover{
+
+    filter:brightness(0.96);
+
+    transform:scale(0.98);
+}
+
+/* =========================================================
+   FILTER BAR
+========================================================= */
+
+.filter-bar{
+
+    padding:16px 28px 0px 28px;
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.filter-btn{
+
+    background:white;
+
+    border:1px solid var(--border-soft);
+
+    padding:8px 20px;
+
+    border-radius:60px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:0.2s;
+
+    font-size:0.85rem;
+}
+
+.filter-btn.active,
+.filter-btn:hover{
+
+    background:var(--green-soft);
+
+    color:white;
+
+    border-color:var(--green-soft);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast-msg{
+
+    position:fixed;
+
+    bottom:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#1e2a1f;
+
+    color:white;
+
+    padding:8px 18px;
+
+    border-radius:60px;
+
+    font-size:0.8rem;
+
+    z-index:2000;
+
+    opacity:0;
+
+    transition:opacity 0.2s;
+
+    pointer-events:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:780px){
+
+    .main{
+        margin-left:85px;
+    }
+
+    .sidebar.collapsed ~ .main{
+        margin-left:85px;
+    }
+
+    .sidebar:not(.collapsed){
+        width:260px;
+    }
+
+    .grid{
+        padding:20px;
+        gap:20px;
+    }
+
+    .banner{
+        height:160px;
+    }
+
+    .avatar{
+
+        width:90px;
+        height:90px;
+
+        margin-top:-45px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR (collapsible) -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <div class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-seedling"></i></div>
+      <div>
+        <div class="logo-title">Rythu Connect</div>
+        <div class="logo-sub">Smart Farming</div>
+      </div>
+    </div>
+
+  <div class="user-mini">
+
+    <div class="user-mini-ava" id="sidebarAva">
+
+        {% if user.profile_image and user.profile_image != 'NULL' and user.profile_image != '' %}
+
+            <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}" alt="Profile">
+
+        {% else %}
+
+            {{ user.username[0] | upper }}
+
+        {% endif %}
+
+    </div>
+
+    <div class="user-mini-info">
+
+        <div class="user-mini-name">
+            {{ user.username }}
+        </div>
+
+        <div class="user-mini-role">
+            {{ user.profession if user.profession else 'Farmer' }}
+        </div>
+
+    </div>
+
+</div>
+  </div>
+
+  <div class="sidebar-body">
+    <div class="menu-section">
+      <div class="menu-label">Main Menu</div>
+      <a href="{{ url_for('rythu_dashboard') }}" class="menu-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="{{ url_for('marketplace') }}" class="menu-item"><i class="fa-solid fa-store"></i><span>Marketplace</span><span class="menu-badge">New</span></a>
+      <a href="{{ url_for('ai_assistant') }}" class="menu-item"><i class="fa-solid fa-robot"></i><span>AI Assistant</span></a>
+      <a href="{{ url_for('weather_forecast') }}" class="menu-item"><i class="fa-solid fa-cloud-sun-rain"></i><span>Weather</span></a>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Farming</div>
+      <a href="{{ url_for('jobs') }}" class="menu-item"><i class="fa-solid fa-briefcase"></i><span>Jobs</span><span class="menu-badge">3</span></a>
+      <a href="{{ url_for('govt_schemes') }}" class="menu-item"><i class="fa-solid fa-building-columns"></i><span>Govt Schemes</span></a>
+      <a href="{{ url_for('community') }}" class="menu-item"><i class="fa-solid fa-users"></i><span>Community</span></a>
+      <a href="{{ url_for('network') }}" class="menu-item active"><i class="fa-solid fa-user-group"></i><span>Network</span></a>
+      <a href="{{ url_for('analytics') }}" class="menu-item"><i class="fa-solid fa-chart-simple"></i><span>Analytics</span></a>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Account</div>
+      <a href="{{ url_for('settings') }}" class="menu-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      <a href="{{ url_for('profile') }}" class="menu-item"><i class="fa-solid fa-user"></i><span>My Profile</span></a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="ai-box">
+      <h3>🤖 AI Crop Advisor</h3>
+      <p>Personalized farming advice, disease detection & market insights.</p>
+      <button class="ai-box-btn" onclick="window.location.href='{{ url_for('ai_assistant') }}'">
+        <i class="fa-solid fa-arrow-right"></i><span>Try AI Assistant</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+
+<div class="main">
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="toggle-btn" id="toggleSidebarBtn"><i class="fa-solid fa-bars"></i></div>
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search farmers, villages, districts...">
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-ai-btn" onclick="window.location.href='{{ url_for('ai_assistant') }}'">
+        <i class="fa-solid fa-robot"></i> AI Assistant
+      </button>
+      <div class="icon-btn" onclick="window.location.href='{{ url_for('notifications') }}'">
+        <i class="fa-solid fa-bell"></i>
+      </div>
+      <div class="icon-btn" onclick="window.location.href='{{ url_for('community') }}'">
+        <i class="fa-solid fa-comment-dots"></i>
+      </div>
+     <div class="profile-wrap">
+
+    <div class="profile-avatar" id="profileBtn">
+
+        {% if user.profile_image and user.profile_image != 'NULL' and user.profile_image != '' %}
+
+            <img src="{{ url_for('static', filename='uploads/profile_images/' ~ user.profile_image) }}" alt="Avatar">
+
+        {% else %}
+
+            {{ user.username[0] | upper }}
+
+        {% endif %}
+
+    </div>
+
+</div>
+    </div>
+  </nav>
+
+  <!-- FILTER BUTTONS -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">🌾 All</button>
+    <button class="filter-btn" data-filter="farmer">👨‍🌾 Farmers</button>
+    <button class="filter-btn" data-filter="trader">📦 Traders</button>
+    <button class="filter-btn" data-filter="expert">🎓 Experts</button>
+  </div>
+
+  <!-- USERS GRID - PERFECT CARDS, FIXED FOLLOW LOGIC -->
+  <div class="grid" id="userGrid">
+{% for u in users %}
+
+  {% if u.role != 'admin' %}
+
+    <!-- USER CARD -->
+    <div class="card" data-profession="{{ u.profession|lower if u.profession else 'farmer' }}" data-user-id="{{ u.id }}">
+
+      <!-- BANNER -->
+      <div class="banner">
+        {% if u.banner_image and u.banner_image != 'NULL' and u.banner_image != '' %}
+          <img src="{{ url_for('static', filename='uploads/banners/' ~ u.banner_image) }}" alt="banner">
+        {% else %}
+          <div class="banner-default-logo">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- AVATAR -->
+      <div class="avatar">
+        {% if u.profile_image and u.profile_image != 'NULL' and u.profile_image != '' %}
+          <img src="{{ url_for('static', filename='uploads/profile_images/' ~ u.profile_image) }}" alt="avatar">
+        {% else %}
+          {{ u.username[0] | upper }}
+        {% endif %}
+      </div>
+
+      <!-- CARD BODY -->
+      <div class="card-body">
+
+        <div class="name">
+          {{ u.username }}
+          <span class="badge">
+            {{ u.profession if u.profession else 'Farmer' }}
+          </span>
+        </div>
+
+        <div class="bio">
+          {{ u.bio if u.bio and u.bio != 'NULL' else 'Passionate farmer growing sustainable future 🌱' }}
+        </div>
+
+        <div class="info">
+          <i class="fa-solid fa-location-dot"></i>
+          {{ u.state if u.state else 'Unknown' }},
+          {{ u.village if u.village else 'Village' }}
+        </div>
+
+        <div class="info">
+          <i class="fa-solid fa-wrench"></i>
+          {{ u.skills if u.skills and u.skills != 'NULL' else 'Organic farming · Irrigation' }}
+        </div>
+
+        <div class="actions">
+
+          {% if u.is_following %}
+            <button class="btn btn-following follow-action"
+                    data-userid="{{ u.id }}"
+                    data-following="true">
+              <i class="fa-solid fa-user-check"></i>
+              Following
+            </button>
+          {% else %}
+            <button class="btn btn-follow follow-action"
+                    data-userid="{{ u.id }}"
+                    data-following="false">
+              <i class="fa-solid fa-user-plus"></i>
+              Follow
+            </button>
+          {% endif %}
+
+          <button class="btn btn-view view-profile-btn"
+                  data-userid="{{ u.id }}">
+            View Profile
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+  {% endif %}
+
+{% endfor %}
+  </div>
+</div>
+
+<!-- Toast message for notification -->
+<div id="toastMsg" class="toast-msg"></div>
+
+<script>
+  // SIDEBAR COLLAPSE/EXPAND
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleSidebarBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    });
+  }
+  if (localStorage.getItem('sidebarCollapsed') === 'true') sidebar.classList.add('collapsed');
+
+  // Helper toast
+  function showToast(message, isError = false) {
+    const toast = document.getElementById('toastMsg');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.style.background = isError ? '#c0392b' : '#0f6324';
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+
+  // FOLLOW TOGGLE - FIXED: using proper async fetch, updates button state dynamically, no need page reload
+  async function toggleFollow(userId, btnElement) {
+    const originalHtml = btnElement.innerHTML;
+    btnElement.disabled = true;
+    try {
+      const response = await fetch(`/toggle_follow/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await response.json();
+      if (!data.success) {
+        showToast(data.message || 'Please login to follow/unfollow', true);
+        btnElement.disabled = false;
+        return;
+      }
+      // update button based on new following state
+      if (data.following) {
+        btnElement.innerHTML = '<i class="fa-solid fa-user-check"></i> Following';
+        btnElement.classList.remove('btn-follow');
+        btnElement.classList.add('btn-following');
+        btnElement.setAttribute('data-following', 'true');
+        showToast('Followed successfully!', false);
+      } else {
+        btnElement.innerHTML = '<i class="fa-solid fa-user-plus"></i> Follow';
+        btnElement.classList.remove('btn-following');
+        btnElement.classList.add('btn-follow');
+        btnElement.setAttribute('data-following', 'false');
+        showToast('Unfollowed', false);
+      }
+    } catch (err) {
+      console.error('Follow error:', err);
+      showToast('Something went wrong. Try again.', true);
+      btnElement.innerHTML = originalHtml;
+    } finally {
+      btnElement.disabled = false;
+    }
+  }
+
+  // Attach follow event listeners to ALL follow buttons (dynamic and static)
+  function attachFollowEvents() {
+    document.querySelectorAll('.follow-action').forEach(btn => {
+      // Remove old listener to avoid duplication, but we use a clean approach
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+      const userId = newBtn.getAttribute('data-userid');
+      if (userId) {
+        newBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFollow(userId, newBtn);
+        });
+      }
+    });
+  }
+
+  // View Profile redirects
+  function attachViewEvents() {
+    document.querySelectorAll('.view-profile-btn').forEach(btn => {
+      const cleanBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(cleanBtn, btn);
+      const userId = cleanBtn.getAttribute('data-userid');
+      if (userId) {
+        cleanBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = `/view_user_profile/${userId}`;
+        });
+      }
+    });
+  }
+
+  // FILTER USERS (profession based)
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = () => document.querySelectorAll('.card');
+  function filterUsers(type) {
+    const allCards = cards();
+    allCards.forEach(card => {
+      const prof = card.getAttribute('data-profession');
+      if (type === 'all') card.style.display = 'flex';
+      else card.style.display = prof === type ? 'flex' : 'none';
+    });
+  }
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const type = btn.getAttribute('data-filter');
+      filterUsers(type);
+    });
+  });
+
+  // SEARCH filtering with name, location, bio — plus respects active filter state
+  const searchInput = document.getElementById('searchInput');
+  function searchAndFilter() {
+    const term = searchInput.value.toLowerCase().trim();
+    const activeFilterBtn = document.querySelector('.filter-btn.active');
+    const activeFilterType = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+    const allCards = cards();
+    allCards.forEach(card => {
+      const nameElem = card.querySelector('.name');
+      const name = nameElem ? nameElem.innerText.toLowerCase() : '';
+      const locationElem = card.querySelector('.info:first-child');
+      const location = locationElem ? locationElem.innerText.toLowerCase() : '';
+      const bioElem = card.querySelector('.bio');
+      const bio = bioElem ? bioElem.innerText.toLowerCase() : '';
+      const matchesSearch = name.includes(term) || location.includes(term) || bio.includes(term);
+      const professionMatch = activeFilterType === 'all' || card.getAttribute('data-profession') === activeFilterType;
+      if (matchesSearch && professionMatch) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      searchAndFilter();
+    });
+  }
+
+  // Re-attach all dynamic handlers after possible async but DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    attachFollowEvents();
+    attachViewEvents();
+    // Ensure correct filter initial
+    filterUsers('all');
+    // Restore profile dropdown (simple but avoid errors)
+    const profileAvatar = document.getElementById('profileBtn');
+    if (profileAvatar) {
+      // optional: but we don't use dropdown in this code version but keep consistent
+      profileAvatar.style.cursor = 'pointer';
+      profileAvatar.addEventListener('click', () => {
+        window.location.href = "{{ url_for('profile') }}";
+      });
+    }
+    // also improve toggle sidebar icons consistency
+    if (typeof(Storage) !== "undefined" && localStorage.getItem('sidebarCollapsed') === 'true') {
+      sidebar.classList.add('collapsed');
+    }
+  });
+</script>
+</body>
+</html>
