@@ -1,20 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+
+from flask import (
+    Flask, render_template, request, redirect,
+    url_for, session, flash, jsonify
+)
 
 from flask_mysqldb import MySQL
-
 import MySQLdb.cursors
-
-
-from werkzeug.utils import secure_filename
-
 from MySQLdb.cursors import DictCursor
 
+from werkzeug.utils import secure_filename
 from models import db, User
-
 from flask_mail import Mail, Message
-
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from duckduckgo_search import DDGS
+
 import os
 import requests
 import datetime
@@ -22,147 +21,166 @@ import ollama
 import time
 import uuid
 import re
+
+
+# =====================================================
+# FLASK APPLICATION
+# =====================================================
+
 app = Flask(__name__)
+
+app.secret_key = os.environ.get("SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError(
+        "SECRET_KEY environment variable is missing"
+    )
+
 socketio = SocketIO(app)
 
-# ===== EMAIL CONFIG =====
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'supportrythuconnect@gmail.com'
-app.config['MAIL_PASSWORD'] = 'lcfirjfrzvfdgksm'   # ⚠️ Gmail App Password
-app.config['MAIL_DEFAULT_SENDER'] = 'supportrythuconnect@gmail.com'
+
+# =====================================================
+# EMAIL CONFIGURATION
+# =====================================================
+
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_USERNAME")
 
 mail = Mail(app)
 
-# =====================================================
-# WEATHER API
-# =====================================================
-
-WEATHER_API_KEY = "4b43f29c74fc44d390f152724262805"
 
 # =====================================================
-# WEATHER FUNCTION
+# WEATHER API CONFIGURATION
 # =====================================================
+
+WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY")
+
 
 # =====================================================
 # GET WEATHER FUNCTION
 # =====================================================
 
 def get_weather(village, district, state, country):
-
     try:
+        city = district
 
-        # =====================================================
-        # LOCATION
-        # =====================================================
+        if not WEATHER_API_KEY:
+            raise RuntimeError("WEATHER_API_KEY is missing")
 
-        city = f"{district}"
+        url = "https://api.weatherapi.com/v1/current.json"
 
-        # =====================================================
-        # WEATHER API URL
-        # =====================================================
-
-        url = f"http://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no"
-
-        # =====================================================
-        # API REQUEST
-        # =====================================================
-
-        response = requests.get(url)
+        response = requests.get(
+            url,
+            params={
+                "key": WEATHER_API_KEY,
+                "q": city,
+                "aqi": "no"
+            },
+            timeout=15
+        )
 
         data = response.json()
 
-        print("WEATHER DATA :", data)
-
-        # =====================================================
-        # SUCCESS
-        # =====================================================
-
         if response.status_code == 200:
-
-            weather = {
-
-                'temperature': round(data['current']['temp_c']),
-
-                'condition': data['current']['condition']['text'],
-
-                'humidity': data['current']['humidity'],
-
-                'wind': round(data['current']['wind_kph']),
-
-                'visibility': str(data['current']['vis_km']) + " km",
-
-                'uv': data['current']['uv']
-
-            }
-
-            return weather
-
-        # =====================================================
-        # FAILED
-        # =====================================================
-
-        else:
-
-            print("Weather API Error :", data)
+            current = data["current"]
 
             return {
-
-                'temperature': '--',
-
-                'condition': 'Unavailable',
-
-                'humidity': '--',
-
-                'wind': '--',
-
-                'visibility': '--',
-
-                'uv': '--'
-
+                "temperature": round(current["temp_c"]),
+                "condition": current["condition"]["text"],
+                "humidity": current["humidity"],
+                "wind": round(current["wind_kph"]),
+                "visibility": str(current["vis_km"]) + " km",
+                "uv": current["uv"]
             }
 
-    # =====================================================
-    # EXCEPTION
-    # =====================================================
+        app.logger.error("Weather API request failed")
+        return {
+            "temperature": "--",
+            "condition": "Unavailable",
+            "humidity": "--",
+            "wind": "--",
+            "visibility": "--",
+            "uv": "--"
+        }
 
-    except Exception as e:
-
-        print("Weather Error :", e)
+    except Exception:
+        app.logger.exception("Weather request failed")
 
         return {
-
-            'temperature': '--',
-
-            'condition': 'Unavailable',
-
-            'humidity': '--',
-
-            'wind': '--',
-
-            'visibility': '--',
-
-            'uv': '--'
-
+            "temperature": "--",
+            "condition": "Unavailable",
+            "humidity": "--",
+            "wind": "--",
+            "visibility": "--",
+            "uv": "--"
         }
-# =====================================================
-# SECRET KEY
-# =====================================================
-
-app.secret_key = "rythu_connect_secret_key"
 
 
 # =====================================================
-# MYSQL DATABASE CONFIGURATION
+# AIVEN MYSQL DATABASE CONFIGURATION
 # =====================================================
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'rythu_connect'
+app.config["MYSQL_HOST"] = os.environ.get("AIVEN_MYSQL_HOST")
+
+app.config["MYSQL_PORT"] = int(
+    os.environ.get("AIVEN_MYSQL_PORT", "24029")
+)
+
+app.config["MYSQL_USER"] = os.environ.get(
+    "AIVEN_MYSQL_USER", "avnadmin"
+)
+
+app.config["MYSQL_PASSWORD"] = os.environ.get(
+    "AIVEN_MYSQL_PASSWORD"
+)
+
+app.config["MYSQL_DB"] = os.environ.get(
+    "AIVEN_MYSQL_DB", "rythu_connect"
+)
+
+app.config["MYSQL_CONNECT_TIMEOUT"] = 15
+
+ca_path = os.environ.get("AIVEN_MYSQL_CA")
+
+if ca_path:
+    app.config["MYSQL_SSL"] = {"ca": ca_path}
 
 mysql = MySQL(app)
+
+
+# =====================================================
+# TEMPORARY DATABASE TEST ROUTE
+# =====================================================
+# Production deployment mundu ee route ni remove cheyyi.
+# =====================================================
+
+@app.route("/db-test")
+def db_test():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT DATABASE()")
+        result = cur.fetchone()
+        cur.close()
+
+        return {
+            "status": "connected",
+            "database": result[0] if result else None
+        }
+
+    except Exception:
+        app.logger.exception("Database connection failed")
+        return "Database connection failed. Check application logs.", 500
+
+
+# =====================================================
+# EXISTING APP ROUTES CONTINUE BELOW
+# =====================================================
+# Nee existing routes, Socket.IO events, AI functions,
+# uploads, login, posts, marketplace etc. ikkada continue avvali.
 
 
 # =====================================================
